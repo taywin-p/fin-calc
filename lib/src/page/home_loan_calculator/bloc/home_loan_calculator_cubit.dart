@@ -1,24 +1,26 @@
 // lib/src/page/home_loan_calculator/bloc/home_loan_calculator_cubit.dart
 import 'dart:math';
 import 'package:fin_calc/src/data/models/home_loan_model.dart';
+import 'package:fin_calc/src/data/repositories/home_loan_repository.dart'; // import repository
 import 'package:fin_calc/src/page/home_loan_calculator/home_loan_calculator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive/hive.dart';
 
 class HomeLoanCalculatorCubit extends Cubit<HomeLoanCalculatorState> {
-  HomeLoanCalculatorCubit() : super(HomeLoanCalculatorInitial()) {
+  final IHomeLoanRepository _repository;
+
+  HomeLoanCalculatorCubit({required IHomeLoanRepository repository})
+      : _repository = repository,
+        super(HomeLoanCalculatorInitial()) {
     loadInitialData();
   }
 
-  final _calculationsBox = Hive.box('calculations');
-  final String _dataKey = 'home_loan_data';
 
-  void loadInitialData() {
-    final savedData = _calculationsBox.get(_dataKey) as HomeLoanModel?;
+  void loadInitialData() async {
+    final savedData = await _repository.getInitialData();
     if (savedData != null) {
       emit(HomeLoanCalculatorLoaded(calculation: savedData));
     } else {
-      emit(HomeLoanCalculatorLoaded(calculation: HomeLoanModel()));
+      emit(HomeLoanCalculatorLoaded(calculation: const HomeLoanModel())); 
     }
   }
 
@@ -27,7 +29,7 @@ class HomeLoanCalculatorCubit extends Cubit<HomeLoanCalculatorState> {
     required String downPayment,
     required String interestRate,
     required String loanTermYears,
-  }) {
+  }) async {
     final double price = double.tryParse(housePrice) ?? 0;
     final double down = double.tryParse(downPayment) ?? 0;
     final double interest = double.tryParse(interestRate) ?? 0;
@@ -51,8 +53,8 @@ class HomeLoanCalculatorCubit extends Cubit<HomeLoanCalculatorState> {
       loanTermYears: term,
       monthlyPayment: monthlyPayment,
     );
-
-    _calculationsBox.put(_dataKey, newCalculation);
+    
+    await _repository.saveData(newCalculation);
     emit(HomeLoanCalculatorLoaded(calculation: newCalculation));
   }
 }

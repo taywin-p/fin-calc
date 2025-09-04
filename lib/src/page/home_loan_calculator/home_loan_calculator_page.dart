@@ -1,4 +1,5 @@
 // lib/src/page/home_loan_calculator/home_loan_calculator_page.dart
+import 'package:fin_calc/src/data/repositories/home_loan_repository_impl.dart';
 import 'package:fin_calc/src/page/home_loan_calculator/home_loan_calculator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,7 +10,11 @@ class HomeLoanCalculatorPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(create: (context) => HomeLoanCalculatorCubit(), child: const HomeLoanCalculatorView());
+    return BlocProvider(
+      // ส่ง Repository เข้าไปตอนสร้าง Cubit
+      create: (context) => HomeLoanCalculatorCubit(repository: HomeLoanRepositoryImpl()),
+      child: const HomeLoanCalculatorView(),
+    );
   }
 }
 
@@ -76,7 +81,6 @@ class _HomeLoanCalculatorViewState extends State<HomeLoanCalculatorView> {
               ElevatedButton(onPressed: _submitCalculation, child: const Text('คำนวณ')),
               const SizedBox(height: 24),
               const Divider(),
-              // BlocBuilder จะสร้าง UI ตาม State ที่เปลี่ยนไป
               BlocBuilder<HomeLoanCalculatorCubit, HomeLoanCalculatorState>(
                 builder: (context, state) {
                   if (state is HomeLoanCalculatorLoaded) {
@@ -85,7 +89,7 @@ class _HomeLoanCalculatorViewState extends State<HomeLoanCalculatorView> {
                     }
                     return _buildSummary(state.calculation.monthlyPayment!);
                   }
-                  return const CircularProgressIndicator(); 
+                  return const CircularProgressIndicator();
                 },
               ),
             ],
