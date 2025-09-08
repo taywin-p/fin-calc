@@ -16,4 +16,9 @@ class HomeLoanRepositoryImpl implements IHomeLoanRepository {
   Future<void> saveData(HomeLoanModel data) async {
     await _calculationsBox.put(_dataKey, data);
   }
+
+  @override
+  Future<void> clearData() async {
+    await _calculationsBox.delete(_dataKey);
+  }
 }

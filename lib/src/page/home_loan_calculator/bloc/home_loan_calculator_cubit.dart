@@ -24,6 +24,11 @@ class HomeLoanCalculatorCubit extends Cubit<HomeLoanCalculatorState> {
     }
   }
 
+  void clear() async {
+    await _repository.clearData();
+    emit(HomeLoanCalculatorLoaded(calculation: const HomeLoanModel()));
+  }
+
   void calculate({
     required String housePrice,
     required String downPayment,

@@ -2,7 +2,6 @@ import 'package:fin_calc/src/data/models/home_loan_model.dart';
 import 'package:fin_calc/src/page/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
