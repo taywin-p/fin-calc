@@ -70,6 +70,9 @@ class _HomeLoanCalculatorViewState extends State<HomeLoanCalculatorView> {
   }
 
   void _submitCalculation() {
+    // ซ่อน keyboard ก่อนคำนวณ
+    FocusScope.of(context).unfocus();
+    
     context.read<HomeLoanCalculatorCubit>().calculate(
       housePrice: _extractNumericValue(_housePriceController.text),
       downPayment: _extractNumericValue(_downPaymentController.text),
@@ -79,6 +82,9 @@ class _HomeLoanCalculatorViewState extends State<HomeLoanCalculatorView> {
   }
 
   void _clearData() {
+    // ซ่อน keyboard ก่อน reset
+    FocusScope.of(context).unfocus();
+    
     context.read<HomeLoanCalculatorCubit>().clear();
     _housePriceController.clear();
     _downPaymentController.clear();
@@ -89,16 +95,21 @@ class _HomeLoanCalculatorViewState extends State<HomeLoanCalculatorView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color(0xFF0F0F23), Color(0xFF1A1A2E), Color(0xFF16213E)],
+      body: GestureDetector(
+        onTap: () {
+          // ซ่อน keyboard เมื่อแตะที่พื้นที่ว่าง
+          FocusScope.of(context).unfocus();
+        },
+        child: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Color(0xFF0F0F23), Color(0xFF1A1A2E), Color(0xFF16213E)],
+            ),
           ),
-        ),
-        child: SafeArea(
-          child: BlocListener<HomeLoanCalculatorCubit, HomeLoanCalculatorState>(
+          child: SafeArea(
+            child: BlocListener<HomeLoanCalculatorCubit, HomeLoanCalculatorState>(
             listener: (context, state) {
               if (state is HomeLoanCalculatorLoaded) {
                 final calc = state.calculation;
@@ -213,10 +224,11 @@ class _HomeLoanCalculatorViewState extends State<HomeLoanCalculatorView> {
                 ),
               ],
             ),
-          ),
-        ),
-      ),
-    );
+          ), // ปิด BlocListener
+        ), // ปิด SafeArea
+        ), // ปิด GestureDetector
+      ), // ปิด Container
+    ); // ปิด Scaffold
   }
 
   Widget _buildInputSection() {
