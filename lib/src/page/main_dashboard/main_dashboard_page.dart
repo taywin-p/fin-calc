@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fin_calc/src/page/home_loan_calculator/home_loan_calculator.dart';
 
-class MainPage extends StatelessWidget {
-  const MainPage({super.key});
+class MainDashboardPage extends StatelessWidget {
+  const MainDashboardPage({super.key});
 
   @override
   Widget build(BuildContext context) {
