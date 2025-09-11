@@ -3,13 +3,13 @@ import 'package:fin_calc/src/data/repositories/home_loan_repository.dart';
 import 'package:hive/hive.dart';
 
 class HomeLoanRepositoryImpl implements IHomeLoanRepository {
-  final Box<HomeLoanModel> _calculationsBox = Hive.box<HomeLoanModel>('calculations');
+  final Box _calculationsBox = Hive.box('calculations');
   final String _dataKey = 'home_loan_data';
 
   @override
   Future<HomeLoanModel?> getInitialData() async {
     final savedData = _calculationsBox.get(_dataKey);
-    return savedData;
+    return savedData as HomeLoanModel?;
   }
 
   @override

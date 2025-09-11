@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fin_calc/src/page/home_loan_calculator/home_loan_calculator.dart';
+import 'package:fin_calc/src/page/savings_calculator/savings_calculator.dart';
 
 class MainDashboardPage extends StatelessWidget {
   const MainDashboardPage({super.key});
@@ -148,7 +149,7 @@ class MainDashboardPage extends StatelessWidget {
                             _buildPremiumCard(
                               context: context,
                               title: 'Savings',
-                              subtitle: 'Track your savings goals\nand compound interest',
+                              subtitle: 'Calculate savings progress\nwith monthly deposits',
                               icon: Icons.savings_outlined,
                               gradient: const LinearGradient(
                                 begin: Alignment.topLeft,
@@ -158,7 +159,21 @@ class MainDashboardPage extends StatelessWidget {
                               ),
                               shadowColor: const Color(0xFFa8edea),
                               onTap: () {
-                                _showComingSoonDialog(context, 'Savings Calculator');
+                                Navigator.push(
+                                  context,
+                                  PageRouteBuilder(
+                                    pageBuilder:
+                                        (context, animation, secondaryAnimation) => const SavingsCalculatorPage(),
+                                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                                      return SlideTransition(
+                                        position: animation.drive(
+                                          Tween(begin: const Offset(1.0, 0.0), end: Offset.zero),
+                                        ),
+                                        child: child,
+                                      );
+                                    },
+                                  ),
+                                );
                               },
                             ),
                             const SizedBox(height: 16),
