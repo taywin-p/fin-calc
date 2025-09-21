@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fin_calc/src/page/home_loan_calculator/home_loan_calculator.dart';
 import 'package:fin_calc/src/page/savings_calculator/savings_calculator.dart';
+import 'package:fin_calc/src/page/investment_calculator/investment_calculator.dart';
 
 class MainDashboardPage extends StatelessWidget {
   const MainDashboardPage({super.key});
@@ -141,7 +142,21 @@ class MainDashboardPage extends StatelessWidget {
                               ),
                               shadowColor: const Color(0xFF4facfe),
                               onTap: () {
-                                _showComingSoonDialog(context, 'Investment Calculator');
+                                Navigator.push(
+                                  context,
+                                  PageRouteBuilder(
+                                    pageBuilder:
+                                        (context, animation, secondaryAnimation) => const InvestmentCalculatorPage(),
+                                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                                      return SlideTransition(
+                                        position: animation.drive(
+                                          Tween(begin: const Offset(1.0, 0.0), end: Offset.zero),
+                                        ),
+                                        child: child,
+                                      );
+                                    },
+                                  ),
+                                );
                               },
                             ),
                             const SizedBox(height: 16),
