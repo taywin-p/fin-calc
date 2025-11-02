@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:fin_calc/src/data/repositories/savings_repository_impl.dart';
 import 'package:fin_calc/src/page/savings_calculator/bloc/savings_calculator_cubit.dart';
 import 'package:fin_calc/src/data/services/savings_calculator_service.dart';
+import 'package:fin_calc/src/page/savings_calculator_details/savings_calculator_details.dart';
 import 'widgets/savings_summary_chart_widget_new.dart';
 
 // Custom number formatter for comma-separated numbers
@@ -490,6 +491,33 @@ class _SavingsCalculatorViewState extends State<SavingsCalculatorView> {
               totalDeposits: (calculation.monthlyDeposit ?? 0) * (calculation.timeToGoalMonths ?? 0),
               totalInterest: calculation.totalInterest ?? 0,
               finalAmount: calculation.finalAmount ?? 0,
+            ),
+            const SizedBox(height: 16),
+            // Details Button
+            Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(color: Colors.white.withOpacity(0.3)),
+              ),
+              child: TextButton.icon(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SavingsCalculatorDetailsPage(calculation: calculation)),
+                  );
+                },
+                icon: const Icon(Icons.table_rows_rounded, color: Colors.white, size: 18),
+                label: const Text(
+                  'ดูรายละเอียดเพิ่มเติม',
+                  style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w500),
+                ),
+                style: TextButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                ),
+              ),
             ),
           ] else ...[
             Container(
