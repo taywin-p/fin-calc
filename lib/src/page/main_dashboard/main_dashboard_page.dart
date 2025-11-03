@@ -51,7 +51,7 @@ class MainDashboardPage extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Financial Calculator \nBy เทวิน สุดหล่อ',
+                                'Financial Calculator',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 24,
@@ -130,6 +130,40 @@ class MainDashboardPage extends StatelessWidget {
                               },
                             ),
                             const SizedBox(height: 16),
+
+
+                            _buildPremiumCard(
+                              context: context,
+                              title: 'Car Loan',
+                              subtitle: 'Calculate auto loan payments\nand schedules',
+                              icon: Icons.directions_car_outlined,
+                              gradient: const LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                colors: [Color(0xFF4A90E2), Color(0xFF357ABD)],
+                                stops: [0.0, 1.0],
+                              ),
+                              shadowColor: const Color(0xFF4A90E2),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  PageRouteBuilder(
+                                    pageBuilder:
+                                        (context, animation, secondaryAnimation) => const CarLoanCalculatorPage(),
+                                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                                      return SlideTransition(
+                                        position: animation.drive(
+                                          Tween(begin: const Offset(1.0, 0.0), end: Offset.zero),
+                                        ),
+                                        child: child,
+                                      );
+                                    },
+                                  ),
+                                );
+                              },
+                            ),
+                            const SizedBox(height: 16),
+
 
                             _buildPremiumCard(
                               context: context,
@@ -225,38 +259,7 @@ class MainDashboardPage extends StatelessWidget {
                                 );
                               },
                             ),
-                            const SizedBox(height: 16),
-
-                            _buildPremiumCard(
-                              context: context,
-                              title: 'Car Loan',
-                              subtitle: 'Calculate auto loan payments\nand schedules',
-                              icon: Icons.directions_car_outlined,
-                              gradient: const LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                                colors: [Color(0xFF4A90E2), Color(0xFF357ABD)],
-                                stops: [0.0, 1.0],
-                              ),
-                              shadowColor: const Color(0xFF4A90E2),
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  PageRouteBuilder(
-                                    pageBuilder:
-                                        (context, animation, secondaryAnimation) => const CarLoanCalculatorPage(),
-                                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                                      return SlideTransition(
-                                        position: animation.drive(
-                                          Tween(begin: const Offset(1.0, 0.0), end: Offset.zero),
-                                        ),
-                                        child: child,
-                                      );
-                                    },
-                                  ),
-                                );
-                              },
-                            ),
+                            
                             const SizedBox(height: 20),
                           ],
                         ),
