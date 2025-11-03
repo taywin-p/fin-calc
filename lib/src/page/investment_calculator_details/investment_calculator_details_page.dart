@@ -341,9 +341,9 @@ class _InvestmentCalculatorDetailsView extends StatelessWidget {
                   child: Row(
                     children: [
                       Expanded(flex: 1, child: _TableCell(item.year.toString())),
-                      Expanded(flex: 2, child: _TableCell('฿${_formatNumber(item.yearlyContribution)}')),
-                      Expanded(flex: 2, child: _TableCell('฿${_formatNumber(item.yearlyReturns)}')),
-                      Expanded(flex: 2, child: _TableCell('฿${_formatNumber(item.totalValue)}')),
+                      Expanded(flex: 2, child: _TableCell(_formatNumber(item.yearlyContribution))),
+                      Expanded(flex: 2, child: _TableCell(_formatNumber(item.yearlyReturns))),
+                      Expanded(flex: 2, child: _TableCell(_formatNumber(item.totalValue))),
                     ],
                   ),
                 );

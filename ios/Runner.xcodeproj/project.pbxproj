@@ -114,7 +114,6 @@
 				7159D9B4F1E282A07549029E /* Pods-RunnerTests.release.xcconfig */,
 				1A59E64C440EB6752C6873B5 /* Pods-RunnerTests.profile.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -473,6 +472,7 @@
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = L7N757CS4C;
 				ENABLE_BITCODE = NO;
+				FLUTTER_BUILD_NUMBER = 2;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -656,6 +656,7 @@
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = L7N757CS4C;
 				ENABLE_BITCODE = NO;
+				FLUTTER_BUILD_NUMBER = 2;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -679,6 +680,7 @@
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = L7N757CS4C;
 				ENABLE_BITCODE = NO;
+				FLUTTER_BUILD_NUMBER = 2;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
