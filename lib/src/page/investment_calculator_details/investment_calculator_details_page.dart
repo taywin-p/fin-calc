@@ -109,8 +109,8 @@ class _InvestmentCalculatorDetailsView extends StatelessWidget {
                       const SizedBox(height: 20),
 
                       // Charts Section
-                      _buildChartsSection(context),
-                      const SizedBox(height: 20),
+                      // _buildChartsSection(context),
+                      // const SizedBox(height: 20),
 
                       // Schedule Table Section
                       _buildScheduleTableSection(context),
@@ -191,17 +191,17 @@ class _InvestmentCalculatorDetailsView extends StatelessWidget {
               return Column(
                 children: [
                   const SizedBox(height: 16),
-                  _buildSummaryRow('เงินลงทุนครั้งแรก', '฿${_formatNumber(calculation.initialInvestment ?? 0)}'),
-                  _buildSummaryRow('เงินลงทุนรายเดือน', '฿${_formatNumber(calculation.monthlyContribution ?? 0)}'),
+                  _buildSummaryRow('เงินลงทุนครั้งแรก', '${_formatNumber(calculation.initialInvestment ?? 0)} บาท'),
+                  _buildSummaryRow('เงินลงทุนรายเดือน', '${_formatNumber(calculation.monthlyContribution ?? 0)} บาท'),
                   _buildSummaryRow('อัตราผลตอบแทนต่อปี', '${(calculation.annualReturnRate ?? 0).toStringAsFixed(1)}%'),
                   _buildSummaryRow('ระยะเวลาการลงทุน', '${calculation.investmentYears ?? 0} ปี'),
                   const Divider(color: Colors.white54, height: 24),
-                  _buildSummaryRow('เงินต้นรวม', '฿${_formatNumber(calculation.totalContributions ?? 0)}'),
-                  _buildSummaryRow('ผลตอบแทนรวม', '฿${_formatNumber(calculation.totalReturns ?? 0)}'),
+                  _buildSummaryRow('เงินต้นรวม', '${_formatNumber(calculation.totalContributions ?? 0)} บาท'),
+                  _buildSummaryRow('ผลตอบแทนรวม', '${_formatNumber(calculation.totalReturns ?? 0)} บาท'),
                   const Divider(color: Colors.white54, height: 24),
                   _buildSummaryRow(
                     'มูลค่ารวมสุดท้าย',
-                    '฿${_formatNumber(calculation.finalAmount ?? 0)}',
+                    '${_formatNumber(calculation.finalAmount ?? 0)} บาท',
                     isHighlight: true,
                   ),
                 ],
@@ -239,7 +239,7 @@ class _InvestmentCalculatorDetailsView extends StatelessWidget {
                   children: [
                     const Text(
                       'กราฟการลงทุน',
-                      style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+                      style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     Container(
                       padding: const EdgeInsets.all(8),
@@ -272,7 +272,7 @@ class _InvestmentCalculatorDetailsView extends StatelessWidget {
                   // Line Chart
                   const Text(
                     'กราฟแสดงการเติบโตของเงินลงทุน',
-                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 16),
+                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 14),
                   ),
                   const SizedBox(height: 16),
                   SizedBox(height: 300, child: _buildLineChart()),
@@ -281,7 +281,7 @@ class _InvestmentCalculatorDetailsView extends StatelessWidget {
                   // Bar Chart
                   const Text(
                     'การแบ่งสัดส่วนของการลงทุน',
-                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 16),
+                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 14),
                   ),
                   const SizedBox(height: 16),
                   SizedBox(height: 200, child: _buildBarChart()),
@@ -298,9 +298,9 @@ class _InvestmentCalculatorDetailsView extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.1),
+        color: const Color(0xFF1A1A2E).withOpacity(0.7),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.white.withOpacity(0.2)),
+        border: Border.all(color: Colors.white.withOpacity(0.1)),
       ),
       child: Column(
         children: [
@@ -308,7 +308,9 @@ class _InvestmentCalculatorDetailsView extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: Colors.blue.withOpacity(0.2),
+              gradient: LinearGradient(
+                colors: [Colors.white.withOpacity(0.2), Colors.white.withOpacity(0.1)],
+              ),
               borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
             ),
             child: const Row(
@@ -363,7 +365,7 @@ class _InvestmentCalculatorDetailsView extends StatelessWidget {
             label,
             style: TextStyle(
               color: Colors.white,
-              fontSize: isHighlight ? 18 : 16,
+              fontSize: isHighlight ? 15 : 14,
               fontWeight: isHighlight ? FontWeight.bold : FontWeight.w500,
               shadows: const [Shadow(offset: Offset(0, 1), blurRadius: 3, color: Colors.black38)],
             ),
@@ -372,7 +374,7 @@ class _InvestmentCalculatorDetailsView extends StatelessWidget {
             value,
             style: TextStyle(
               color: Colors.white,
-              fontSize: isHighlight ? 18 : 16,
+              fontSize: isHighlight ? 15 : 14,
               fontWeight: isHighlight ? FontWeight.bold : FontWeight.w500,
               shadows: const [Shadow(offset: Offset(0, 1), blurRadius: 3, color: Colors.black38)],
             ),

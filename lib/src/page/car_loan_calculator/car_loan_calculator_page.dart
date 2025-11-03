@@ -263,23 +263,23 @@ class _CarLoanCalculatorViewState extends State<CarLoanCalculatorView> {
       style: const TextStyle(color: Colors.white, fontSize: 16),
       decoration: InputDecoration(
         labelText: labelText,
-        labelStyle: TextStyle(color: Colors.white.withOpacity(0.7), fontSize: 14),
+        labelStyle: TextStyle(color: Colors.white.withOpacity(0.8)),
         suffixText: suffixText,
-        suffixStyle: TextStyle(color: Colors.white.withOpacity(0.5), fontSize: 14),
-        prefixIcon: Icon(icon, color: Colors.white.withOpacity(0.7), size: 20),
+        suffixStyle: TextStyle(color: Colors.white.withOpacity(0.8)),
+        prefixIcon: Icon(icon, color: Colors.white.withOpacity(0.8)),
         filled: true,
-        fillColor: Colors.white.withOpacity(0.05),
+        fillColor: Colors.white.withOpacity(0.1),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.white.withOpacity(0.2)),
+          borderSide: BorderSide(color: Colors.white.withOpacity(0.3)),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.white.withOpacity(0.2)),
+          borderSide: BorderSide(color: Colors.white.withOpacity(0.3)),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Color(0xFF4A90E2), width: 2),
+          borderSide: const BorderSide(color: Colors.white, width: 2),
         ),
       ),
     );
@@ -455,7 +455,7 @@ class _CarLoanCalculatorViewState extends State<CarLoanCalculatorView> {
             value,
             style: TextStyle(
               color: Colors.white,
-              fontSize: isTotal ? 16 : 14,
+              fontSize: isTotal ? 15 : 14,
               fontWeight: isTotal ? FontWeight.bold : FontWeight.w600,
             ),
           ),

@@ -86,14 +86,6 @@ class SavingsCalculatorDetailsView extends StatelessWidget {
                               letterSpacing: 0.3,
                             ),
                           ),
-                          Text(
-                            'ตารางการออมรายเดือน',
-                            style: TextStyle(
-                              color: Colors.white.withOpacity(0.7),
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
                         ],
                       ),
                     ),
@@ -389,7 +381,7 @@ class SavingsCalculatorDetailsView extends StatelessWidget {
             flex: 3,
             child: Text(
               numberFormat.format(totalInterest),
-              style: TextStyle(color: Colors.green.shade300, fontSize: 13, fontWeight: FontWeight.w500),
+              style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w500),
               textAlign: TextAlign.center,
             ),
           ),

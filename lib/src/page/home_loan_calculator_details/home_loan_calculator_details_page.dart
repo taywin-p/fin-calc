@@ -245,9 +245,11 @@ class _HomeLoanCalculatorDetailsView extends StatelessWidget {
                     Container(
                       margin: const EdgeInsets.symmetric(horizontal: 16),
                       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-                      decoration: const BoxDecoration(
-                        color: Color(0xFF1A1A2E),
-                        borderRadius: BorderRadius.only(topLeft: Radius.circular(12), topRight: Radius.circular(12)),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [Colors.white.withOpacity(0.2), Colors.white.withOpacity(0.1)],
+                        ),
+                        borderRadius: const BorderRadius.only(topLeft: Radius.circular(12), topRight: Radius.circular(12)),
                       ),
                       child: const Row(
                         children: [
@@ -265,7 +267,7 @@ class _HomeLoanCalculatorDetailsView extends StatelessWidget {
                       child: Container(
                         margin: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
                         decoration: BoxDecoration(
-                          color: const Color(0xFF16213E),
+                          color: const Color(0xFF1A1A2E).withOpacity(0.7),
                           borderRadius: const BorderRadius.only(
                             bottomLeft: Radius.circular(12),
                             bottomRight: Radius.circular(12),
@@ -346,7 +348,7 @@ class _TableHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
+      style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
       textAlign: TextAlign.center,
     );
   }
@@ -359,6 +361,6 @@ class _TableCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(text, style: const TextStyle(color: Colors.white, fontSize: 11), textAlign: TextAlign.center);
+    return Text(text, style: const TextStyle(color: Colors.white, fontSize: 13), textAlign: TextAlign.center);
   }
 }

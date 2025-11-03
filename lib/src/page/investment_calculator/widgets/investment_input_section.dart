@@ -306,11 +306,11 @@ class _InvestmentInputSectionState extends State<InvestmentInputSection> {
     ];
 
     return Container(
-      padding: const EdgeInsets.all(4),
+      padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.1),
+        color: Colors.white.withOpacity(0.05),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.white.withOpacity(0.2)),
+        border: Border.all(color: Colors.white.withOpacity(0.1)),
       ),
       child: Column(
         children:
@@ -320,42 +320,44 @@ class _InvestmentInputSectionState extends State<InvestmentInputSection> {
               final selectedType = isAnySelected ? widget.selectedInvestmentType : groupTypes.first;
 
               return Container(
-                margin: const EdgeInsets.only(bottom: 4),
+                margin: const EdgeInsets.only(bottom: 8),
                 child: InkWell(
                   onTap: () => widget.onInvestmentTypeChanged(selectedType),
                   borderRadius: BorderRadius.circular(12),
                   child: Container(
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                     decoration: BoxDecoration(
                       color:
-                          isAnySelected ? (group['color'] as Color).withOpacity(0.2) : Colors.white.withOpacity(0.05),
+                          isAnySelected ? (group['color'] as Color).withOpacity(0.15) : Colors.transparent,
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
                         color:
-                            isAnySelected ? (group['color'] as Color).withOpacity(0.4) : Colors.white.withOpacity(0.1),
-                        width: 1,
+                            isAnySelected ? (group['color'] as Color).withOpacity(0.5) : Colors.white.withOpacity(0.15),
+                        width: isAnySelected ? 1.5 : 1,
                       ),
                     ),
                     child: Row(
                       children: [
-                        Radio<String>(
-                          value: group['title'] as String,
-                          groupValue:
-                              investmentGroups.firstWhere(
-                                    (g) => (g['types'] as List<InvestmentType>).contains(widget.selectedInvestmentType),
-                                    orElse: () => investmentGroups.first,
-                                  )['title']
-                                  as String,
-                          onChanged: (value) => widget.onInvestmentTypeChanged(selectedType),
-                          activeColor: group['color'] as Color,
-                          fillColor: MaterialStateProperty.resolveWith<Color>((states) {
-                            if (states.contains(MaterialState.selected)) {
-                              return group['color'] as Color;
-                            }
-                            return Colors.white.withOpacity(0.4);
-                          }),
+                        Container(
+                          width: 20,
+                          height: 20,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: isAnySelected ? (group['color'] as Color) : Colors.white.withOpacity(0.3),
+                              width: 2,
+                            ),
+                            color: isAnySelected ? (group['color'] as Color) : Colors.transparent,
+                          ),
+                          child: isAnySelected
+                              ? Icon(
+                                  Icons.check,
+                                  size: 12,
+                                  color: Colors.white,
+                                )
+                              : null,
                         ),
-                        const SizedBox(width: 8),
+                        const SizedBox(width: 12),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -363,8 +365,8 @@ class _InvestmentInputSectionState extends State<InvestmentInputSection> {
                               Text(
                                 group['title'] as String,
                                 style: TextStyle(
-                                  color: isAnySelected ? Colors.white : Colors.white.withOpacity(0.8),
-                                  fontSize: 16,
+                                  color: Colors.white,
+                                  fontSize: 15,
                                   fontWeight: isAnySelected ? FontWeight.w600 : FontWeight.w500,
                                 ),
                               ),
@@ -372,8 +374,8 @@ class _InvestmentInputSectionState extends State<InvestmentInputSection> {
                               Text(
                                 group['subtitle'] as String,
                                 style: TextStyle(
-                                  color: isAnySelected ? Colors.white.withOpacity(0.8) : Colors.white.withOpacity(0.6),
-                                  fontSize: 13,
+                                  color: Colors.white.withOpacity(0.6),
+                                  fontSize: 12,
                                 ),
                               ),
                             ],

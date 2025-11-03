@@ -181,7 +181,7 @@ class CarLoanCalculatorDetailsView extends StatelessWidget {
                     _buildSummaryRow('ราคารถ', '${numberFormat.format(calculation?.carPrice ?? 0)} บาท'),
                     _buildSummaryRow('เงินดาวน์', '${numberFormat.format(calculation?.downPayment ?? 0)} บาท'),
                     _buildSummaryRow('จำนวนเงินกู้', '${numberFormat.format(calculation?.loanAmount ?? 0)} บาท'),
-                    _buildSummaryRow('อัตราดอกเบี้ย', '${calculation?.interestRate?.toStringAsFixed(2) ?? '0.00'}% ต่อปี'),
+                    _buildSummaryRow('อัตราดอกเบี้ยต่อปี', '${calculation?.interestRate?.toStringAsFixed(2) ?? '0.00'}%'),
                     _buildSummaryRow('ระยะเวลาผ่อน', '${calculation?.loanTermYears ?? 0} ปี'),
                     const Divider(color: Colors.white54, height: 20),
                     _buildSummaryRow('ค่างวดต่อเดือน', '${numberFormat.format(calculation?.monthlyPayment ?? 0)} บาท', isHighlight: true),
@@ -221,7 +221,9 @@ class CarLoanCalculatorDetailsView extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: const Color(0xFF4A90E2).withOpacity(0.2),
+              gradient: LinearGradient(
+                colors: [Colors.white.withOpacity(0.2), Colors.white.withOpacity(0.1)],
+              ),
               borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
             ),
             child: Row(
@@ -239,16 +241,18 @@ class CarLoanCalculatorDetailsView extends StatelessWidget {
             itemCount: schedule.length,
             itemBuilder: (context, index) {
               final item = schedule[index];
+              final isEven = index % 2 == 0;
               return Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 decoration: BoxDecoration(
+                  color: isEven ? Colors.white.withOpacity(0.05) : Colors.transparent,
                   border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.1), width: 1)),
                 ),
                 child: Row(
                   children: [
-                    Expanded(flex: 1, child: Text('${item.month}', style: const TextStyle(color: Colors.white70, fontSize: 13), textAlign: TextAlign.center)),
+                    Expanded(flex: 1, child: Text('${item.month}', style: const TextStyle(color: Colors.white, fontSize: 13), textAlign: TextAlign.center)),
                     Expanded(flex: 2, child: Text(numberFormat.format(item.principal), style: const TextStyle(color: Colors.white, fontSize: 13), textAlign: TextAlign.right)),
-                    Expanded(flex: 2, child: Text(numberFormat.format(item.interest), style: const TextStyle(color: Colors.white70, fontSize: 13), textAlign: TextAlign.right)),
+                    Expanded(flex: 2, child: Text(numberFormat.format(item.interest), style: const TextStyle(color: Colors.white, fontSize: 13), textAlign: TextAlign.right)),
                     Expanded(flex: 2, child: Text(numberFormat.format(item.remainingBalance), style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w500), textAlign: TextAlign.right)),
                   ],
                 ),
