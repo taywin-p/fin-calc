@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 
 import 'package:fin_calc/src/data/repositories/retirement_repository_impl.dart';
 import 'package:fin_calc/src/page/retirement_calculator/bloc/retirement_calculator_cubit.dart';
-import 'package:fin_calc/src/page/retirement_calculator_details/retirement_calculator_details.dart';
 
 // Custom number formatter for comma-separated numbers
 class NumberTextInputFormatter extends TextInputFormatter {
@@ -400,13 +399,13 @@ class _RetirementCalculatorViewState extends State<RetirementCalculatorView> {
               margin: const EdgeInsets.only(left: 4),
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
-                  colors: [Color(0xFFf093fb), Color(0xFFf5576c)],
+                  colors: [Color(0xFFFF6B6B), Color(0xFFEE5A6F)],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: [
-                  BoxShadow(color: const Color(0xFFf5576c).withOpacity(0.3), blurRadius: 8, offset: const Offset(0, 4)),
+                  BoxShadow(color: const Color(0xFFEE5A6F).withOpacity(0.3), blurRadius: 8, offset: const Offset(0, 4)),
                 ],
               ),
               child: ElevatedButton.icon(
@@ -440,12 +439,12 @@ class _RetirementCalculatorViewState extends State<RetirementCalculatorView> {
         gradient: const LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [Color(0xFFf093fb), Color(0xFFf5576c)],
+          colors: [Color(0xFFFF6B6B), Color(0xFFEE5A6F)],
         ),
         borderRadius: BorderRadius.circular(24),
         border: Border.all(color: Colors.white.withOpacity(0.2)),
         boxShadow: [
-          BoxShadow(color: const Color(0xFFf5576c).withOpacity(0.3), blurRadius: 20, offset: const Offset(0, 8)),
+          BoxShadow(color: const Color(0xFFEE5A6F).withOpacity(0.3), blurRadius: 20, offset: const Offset(0, 8)),
         ],
       ),
       child: Column(
@@ -564,36 +563,6 @@ class _RetirementCalculatorViewState extends State<RetirementCalculatorView> {
               ],
             ),
           ),
-          const SizedBox(height: 16),
-          
-          // Details Button
-          Container(
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: Colors.white.withOpacity(0.3)),
-            ),
-            child: TextButton.icon(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => RetirementCalculatorDetailsPage(calculation: calculation),
-                  ),
-                );
-              },
-              icon: const Icon(Icons.table_rows_rounded, color: Colors.white, size: 18),
-              label: const Text(
-                'ดูรายละเอียดเพิ่มเติม',
-                style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w500),
-              ),
-              style: TextButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-              ),
-            ),
-          ),
         ],
       ),
     );
@@ -644,7 +613,8 @@ class _RetirementCalculatorViewState extends State<RetirementCalculatorView> {
           Text(
             value,
             style: TextStyle(
-              color: highlight ? Colors.yellow : Colors.white,
+              //color: highlight ? Colors.yellow : Colors.white,
+              color: Colors.white,
               fontSize: isTotal ? 16 : 14,
               fontWeight: isTotal ? FontWeight.bold : FontWeight.w600,
             ),

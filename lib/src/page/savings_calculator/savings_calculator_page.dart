@@ -486,13 +486,13 @@ class _SavingsCalculatorViewState extends State<SavingsCalculatorView> {
             ),
             const SizedBox(height: 16),
             // กราฟแท่งสรุป
-            SavingsSummaryChartWidget(
-              currentSavings: calculation.currentSavings ?? 0,
-              totalDeposits: (calculation.monthlyDeposit ?? 0) * (calculation.timeToGoalMonths ?? 0),
-              totalInterest: calculation.totalInterest ?? 0,
-              finalAmount: calculation.finalAmount ?? 0,
-            ),
-            const SizedBox(height: 16),
+            // SavingsSummaryChartWidget(
+            //   currentSavings: calculation.currentSavings ?? 0,
+            //   totalDeposits: (calculation.monthlyDeposit ?? 0) * (calculation.timeToGoalMonths ?? 0),
+            //   totalInterest: calculation.totalInterest ?? 0,
+            //   finalAmount: calculation.finalAmount ?? 0,
+            // ),
+            // const SizedBox(height: 16),
             // Details Button
             Container(
               width: double.infinity,

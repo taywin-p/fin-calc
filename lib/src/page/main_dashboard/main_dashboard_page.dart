@@ -3,6 +3,7 @@ import 'package:fin_calc/src/page/home_loan_calculator/home_loan_calculator.dart
 import 'package:fin_calc/src/page/savings_calculator/savings_calculator.dart';
 import 'package:fin_calc/src/page/investment_calculator/investment_calculator.dart';
 import 'package:fin_calc/src/page/retirement_calculator/retirement_calculator.dart';
+import 'package:fin_calc/src/page/car_loan_calculator/car_loan_calculator.dart';
 
 class MainDashboardPage extends StatelessWidget {
   const MainDashboardPage({super.key});
@@ -202,16 +203,48 @@ class MainDashboardPage extends StatelessWidget {
                               gradient: const LinearGradient(
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight,
-                                colors: [Color(0xFFf093fb), Color(0xFFf5576c)],
+                                colors: [Color(0xFFFF6B6B), Color(0xFFEE5A6F)],
                                 stops: [0.0, 1.0],
                               ),
-                              shadowColor: const Color(0xFFf5576c),
+                              shadowColor: const Color(0xFFEE5A6F),
                               onTap: () {
                                 Navigator.push(
                                   context,
                                   PageRouteBuilder(
                                     pageBuilder:
                                         (context, animation, secondaryAnimation) => const RetirementCalculatorPage(),
+                                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                                      return SlideTransition(
+                                        position: animation.drive(
+                                          Tween(begin: const Offset(1.0, 0.0), end: Offset.zero),
+                                        ),
+                                        child: child,
+                                      );
+                                    },
+                                  ),
+                                );
+                              },
+                            ),
+                            const SizedBox(height: 16),
+
+                            _buildPremiumCard(
+                              context: context,
+                              title: 'Car Loan',
+                              subtitle: 'Calculate auto loan payments\nand schedules',
+                              icon: Icons.directions_car_outlined,
+                              gradient: const LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                colors: [Color(0xFF4A90E2), Color(0xFF357ABD)],
+                                stops: [0.0, 1.0],
+                              ),
+                              shadowColor: const Color(0xFF4A90E2),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  PageRouteBuilder(
+                                    pageBuilder:
+                                        (context, animation, secondaryAnimation) => const CarLoanCalculatorPage(),
                                     transitionsBuilder: (context, animation, secondaryAnimation, child) {
                                       return SlideTransition(
                                         position: animation.drive(

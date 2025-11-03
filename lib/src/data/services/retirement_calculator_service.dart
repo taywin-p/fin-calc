@@ -32,17 +32,14 @@ class RetirementCalculatorService {
     final monthsInRetirement = yearsInRetirement * 12;
 
     double totalRetirementNeeded;
-    if (monthlyRealReturn > 0) {
-      // ถ้ามีอัตราผลตอบแทนจริงบวก
+    if (monthlyRealReturn != 0) {
+      // ใช้สูตร Present Value of Annuity: PV = PMT × [(1 - (1 + r)^-n) / r]
+      // สูตรนี้ใช้ได้ทั้งกรณี r เป็นบวก (ดอกเบี้ย > เงินเฟ้อ) และติดลบ (ดอกเบี้ย < เงินเฟ้อ)
       totalRetirementNeeded = retirementMonthlyExpenses * 
         ((1 - pow(1 + monthlyRealReturn, -monthsInRetirement)) / monthlyRealReturn);
-    } else if (monthlyRealReturn < 0) {
-      // ถ้าอัตราผลตอบแทนจริงติดลบ (เงินเฟ้อสูงกว่าดอกเบี้ย)
-      // ต้องมีเงินมากขึ้นเพราะเงินจะหายค่าเร็วกว่า
-      totalRetirementNeeded = retirementMonthlyExpenses * 
-        ((pow(1 - monthlyRealReturn, monthsInRetirement) - 1) / (-monthlyRealReturn));
     } else {
       // ถ้าอัตราผลตอบแทนจริงเป็น 0 (ดอกเบี้ยเท่ากับเงินเฟ้อ)
+      // เงินที่ต้องมี = ค่าใช้จ่าย × จำนวนเดือน
       totalRetirementNeeded = retirementMonthlyExpenses * monthsInRetirement;
     }
 
