@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fin_calc/src/page/home_loan_calculator/home_loan_calculator.dart';
 import 'package:fin_calc/src/page/savings_calculator/savings_calculator.dart';
 import 'package:fin_calc/src/page/investment_calculator/investment_calculator.dart';
+import 'package:fin_calc/src/page/retirement_calculator/retirement_calculator.dart';
 
 class MainDashboardPage extends StatelessWidget {
   const MainDashboardPage({super.key});
@@ -197,16 +198,30 @@ class MainDashboardPage extends StatelessWidget {
                               context: context,
                               title: 'Retirement',
                               subtitle: 'Plan for your future\nand retirement needs',
-                              icon: Icons.elderly_outlined,
+                              icon: Icons.beach_access_outlined,
                               gradient: const LinearGradient(
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight,
-                                colors: [Color(0xFFffecd2), Color(0xFFfcb69f)],
+                                colors: [Color(0xFFf093fb), Color(0xFFf5576c)],
                                 stops: [0.0, 1.0],
                               ),
-                              shadowColor: const Color(0xFFffecd2),
+                              shadowColor: const Color(0xFFf5576c),
                               onTap: () {
-                                _showComingSoonDialog(context, 'Retirement Planning');
+                                Navigator.push(
+                                  context,
+                                  PageRouteBuilder(
+                                    pageBuilder:
+                                        (context, animation, secondaryAnimation) => const RetirementCalculatorPage(),
+                                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                                      return SlideTransition(
+                                        position: animation.drive(
+                                          Tween(begin: const Offset(1.0, 0.0), end: Offset.zero),
+                                        ),
+                                        child: child,
+                                      );
+                                    },
+                                  ),
+                                );
                               },
                             ),
                             const SizedBox(height: 20),
