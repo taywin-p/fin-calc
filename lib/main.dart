@@ -9,9 +9,9 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+// 1. เตรียม Hive
   await Hive.initFlutter();
-
+// 2. ลงทะเบียน Type Adapters (เพื่อแปลง dart Object ↔ Binary)
   Hive.registerAdapter(HomeLoanModelAdapter());
   Hive.registerAdapter(PaymentScheduleItemAdapter());
   Hive.registerAdapter(SavingsModelAdapter());
@@ -22,7 +22,8 @@ void main() async {
   Hive.registerAdapter(RetirementModelAdapter());
   Hive.registerAdapter(CarLoanModelAdapter());
   Hive.registerAdapter(CarLoanScheduleItemAdapter());
-
+  // 3. เปิด Box (สร้าง/เปิดไฟล์ในเครื่อง)
+  //หมวดหมู่ประเภทสามารถเปิดและแยกเก็บได้
   await Hive.openBox('calculations');
 
   runApp(const MyApp());

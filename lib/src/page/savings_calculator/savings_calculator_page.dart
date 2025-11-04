@@ -216,6 +216,7 @@ class _SavingsCalculatorViewState extends State<SavingsCalculatorView> {
                               if (state is SavingsCalculatorLoaded) {
                                 if (state.calculation.timeToGoalMonths == null ||
                                     state.calculation.timeToGoalMonths! <= 0) {
+                                      //not show summary if invalid calculation
                                   return const SizedBox.shrink();
                                 }
                                 return _buildSummarySection(state.calculation);
