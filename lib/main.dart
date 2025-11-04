@@ -12,9 +12,6 @@ void main() async {
 
   await Hive.initFlutter();
 
-  // Delete existing box to clear old data with conflicting typeIds
-  await Hive.deleteBoxFromDisk('calculations');
-
   Hive.registerAdapter(HomeLoanModelAdapter());
   Hive.registerAdapter(PaymentScheduleItemAdapter());
   Hive.registerAdapter(SavingsModelAdapter());

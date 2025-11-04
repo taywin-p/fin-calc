@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/models/investment_model.dart';
 import '../../data/services/investment_service.dart';
+import 'bloc/investment_calculator_cubit.dart';
 import 'widgets/investment_input_section.dart';
 import '../investment_calculator_details/investment_calculator_details.dart';
 
@@ -15,22 +17,55 @@ class _InvestmentCalculatorPageState extends State<InvestmentCalculatorPage> {
   final _formKey = GlobalKey<FormState>();
 
   // Controllers สำหรับ Input
-  final TextEditingController _initialInvestmentController = TextEditingController(text: '10000');
-  final TextEditingController _monthlyContributionController = TextEditingController(text: '2000');
-  final TextEditingController _annualReturnController = TextEditingController(text: '8.0');
-  final TextEditingController _yearsController = TextEditingController(text: '10');
+  final TextEditingController _initialInvestmentController = TextEditingController();
+  final TextEditingController _monthlyContributionController = TextEditingController();
+  final TextEditingController _annualReturnController = TextEditingController();
+  final TextEditingController _yearsController = TextEditingController();
 
   // Variables
   InvestmentType _selectedInvestmentType = InvestmentType.balanced;
-  InvestmentModel? _calculationResult;
-  List<InvestmentScheduleItem> _scheduleItems = [];
-  bool _isCalculating = false;
+  bool _isInitialized = false;
 
   @override
   void initState() {
     super.initState();
-    _updateReturnRateFromType();
-    _calculateInvestment();
+    // Load saved data after first frame
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadSavedData();
+    });
+  }
+
+  void _loadSavedData() {
+    final state = context.read<InvestmentCalculatorCubit>().state;
+    if (state is InvestmentCalculatorLoaded && !_isInitialized) {
+      final calculation = state.calculation;
+      _initialInvestmentController.text = calculation.initialInvestment?.toStringAsFixed(0) ?? '10000';
+      _monthlyContributionController.text = calculation.monthlyContribution?.toStringAsFixed(0) ?? '2000';
+      _annualReturnController.text = calculation.annualReturnRate?.toStringAsFixed(1) ?? '8.0';
+      _yearsController.text = calculation.investmentYears?.toString() ?? '10';
+      
+      // Set investment type based on return rate
+      if (calculation.annualReturnRate != null) {
+        _selectedInvestmentType = _getInvestmentTypeFromRate(calculation.annualReturnRate!);
+      }
+      
+      _isInitialized = true;
+    } else if (!_isInitialized) {
+      // Set default values if no saved data
+      _initialInvestmentController.text = '10000';
+      _monthlyContributionController.text = '2000';
+      _annualReturnController.text = '8.0';
+      _yearsController.text = '10';
+      _updateReturnRateFromType();
+      _isInitialized = true;
+    }
+  }
+
+  InvestmentType _getInvestmentTypeFromRate(double rate) {
+    if (rate == InvestmentType.conservative.suggestedReturnRate) return InvestmentType.conservative;
+    if (rate == InvestmentType.balanced.suggestedReturnRate) return InvestmentType.balanced;
+    if (rate == InvestmentType.aggressive.suggestedReturnRate) return InvestmentType.aggressive;
+    return InvestmentType.custom;
   }
 
   @override
@@ -48,61 +83,35 @@ class _InvestmentCalculatorPageState extends State<InvestmentCalculatorPage> {
     }
   }
 
-  Future<void> _calculateInvestment() async {
+  void _calculateInvestment() {
     final formState = _formKey.currentState;
     if (formState != null && !formState.validate()) return;
 
-    setState(() {
-      _isCalculating = true;
-    });
-
-    // จำลองการคำนวณที่ใช้เวลา (เพื่อแสดง loading)
-    await Future.delayed(const Duration(milliseconds: 300));
-
-    try {
-      final result = InvestmentService.calculateInvestment(
-        initialInvestment: double.tryParse(_initialInvestmentController.text.replaceAll(',', '')) ?? 0,
-        monthlyContribution: double.tryParse(_monthlyContributionController.text.replaceAll(',', '')) ?? 0,
-        annualReturnRate: double.tryParse(_annualReturnController.text) ?? 0,
-        investmentYears: int.tryParse(_yearsController.text) ?? 0,
-      );
-
-      final schedule = InvestmentService.generateInvestmentSchedule(
-        initialInvestment: double.tryParse(_initialInvestmentController.text.replaceAll(',', '')) ?? 0,
-        monthlyContribution: double.tryParse(_monthlyContributionController.text.replaceAll(',', '')) ?? 0,
-        annualReturnRate: double.tryParse(_annualReturnController.text) ?? 0,
-        investmentYears: int.tryParse(_yearsController.text) ?? 0,
-      );
-
-      setState(() {
-        _calculationResult = result;
-        _scheduleItems = schedule;
-        _isCalculating = false;
-      });
-    } catch (e) {
-      setState(() {
-        _isCalculating = false;
-      });
-
-      if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('เกิดข้อผิดพลาดในการคำนวณ: $e'), backgroundColor: Colors.red));
-      }
-    }
+    context.read<InvestmentCalculatorCubit>().calculate(
+      initialInvestment: _initialInvestmentController.text.replaceAll(',', ''),
+      monthlyContribution: _monthlyContributionController.text.replaceAll(',', ''),
+      annualReturnRate: _annualReturnController.text,
+      investmentYears: _yearsController.text,
+    );
   }
 
-  void _navigateToDetails() {
-    if (_calculationResult != null) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder:
-              (context) =>
-                  InvestmentCalculatorDetailsPage(calculation: _calculationResult!, scheduleItems: _scheduleItems),
+  void _navigateToDetails(InvestmentModel calculation) {
+    final schedule = InvestmentService.generateInvestmentSchedule(
+      initialInvestment: calculation.initialInvestment ?? 0,
+      monthlyContribution: calculation.monthlyContribution ?? 0,
+      annualReturnRate: calculation.annualReturnRate ?? 0,
+      investmentYears: calculation.investmentYears ?? 0,
+    );
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => InvestmentCalculatorDetailsPage(
+          calculation: calculation,
+          scheduleItems: schedule,
         ),
-      );
-    }
+      ),
+    );
   }
 
   void _clearData() {
@@ -111,9 +120,6 @@ class _InvestmentCalculatorPageState extends State<InvestmentCalculatorPage> {
 
     setState(() {
       _selectedInvestmentType = InvestmentType.balanced;
-      _calculationResult = null;
-      _scheduleItems = [];
-      _isCalculating = false;
     });
 
     _initialInvestmentController.text = '10000';
@@ -122,14 +128,20 @@ class _InvestmentCalculatorPageState extends State<InvestmentCalculatorPage> {
     _yearsController.text = '10';
 
     _updateReturnRateFromType();
-    _calculateInvestment();
+    
+    context.read<InvestmentCalculatorCubit>().clear();
   }
 
-  void _calculateAndNavigateToDetails() async {
-    await _calculateInvestment();
-    if (_calculationResult != null) {
-      _navigateToDetails();
-    }
+  void _calculateAndNavigateToDetails() {
+    _calculateInvestment();
+    
+    // Wait for calculation to complete then navigate
+    Future.delayed(const Duration(milliseconds: 500), () {
+      final state = context.read<InvestmentCalculatorCubit>().state;
+      if (state is InvestmentCalculatorLoaded) {
+        _navigateToDetails(state.calculation);
+      }
+    });
   }
 
   @override
@@ -214,23 +226,39 @@ class _InvestmentCalculatorPageState extends State<InvestmentCalculatorPage> {
 
               // Content - Only Input Form
               Expanded(
-                child: InvestmentInputSection(
-                  formKey: _formKey,
-                  initialInvestmentController: _initialInvestmentController,
-                  monthlyContributionController: _monthlyContributionController,
-                  annualReturnController: _annualReturnController,
-                  yearsController: _yearsController,
-                  selectedInvestmentType: _selectedInvestmentType,
-                  isCalculating: _isCalculating,
-                  onInvestmentTypeChanged: (type) {
-                    setState(() {
-                      _selectedInvestmentType = type;
-                      _updateReturnRateFromType();
-                    });
-                    _calculateInvestment();
+                child: BlocConsumer<InvestmentCalculatorCubit, InvestmentCalculatorState>(
+                  listener: (context, state) {
+                    if (state is InvestmentCalculatorError) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(state.message),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                    }
                   },
-                  onCalculate: _calculateAndNavigateToDetails,
-                  onReset: _clearData,
+                  builder: (context, state) {
+                    final isCalculating = state is InvestmentCalculatorLoading;
+                    
+                    return InvestmentInputSection(
+                      formKey: _formKey,
+                      initialInvestmentController: _initialInvestmentController,
+                      monthlyContributionController: _monthlyContributionController,
+                      annualReturnController: _annualReturnController,
+                      yearsController: _yearsController,
+                      selectedInvestmentType: _selectedInvestmentType,
+                      isCalculating: isCalculating,
+                      onInvestmentTypeChanged: (type) {
+                        setState(() {
+                          _selectedInvestmentType = type;
+                          _updateReturnRateFromType();
+                        });
+                        _calculateInvestment();
+                      },
+                      onCalculate: _calculateAndNavigateToDetails,
+                      onReset: _clearData,
+                    );
+                  },
                 ),
               ),
             ],

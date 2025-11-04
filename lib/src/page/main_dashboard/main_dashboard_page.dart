@@ -182,7 +182,7 @@ class MainDashboardPage extends StatelessWidget {
                                   context,
                                   PageRouteBuilder(
                                     pageBuilder:
-                                        (context, animation, secondaryAnimation) => const InvestmentCalculatorPage(),
+                                        (context, animation, secondaryAnimation) => const InvestmentCalculatorWrapper(),
                                     transitionsBuilder: (context, animation, secondaryAnimation, child) {
                                       return SlideTransition(
                                         position: animation.drive(
