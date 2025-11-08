@@ -389,6 +389,11 @@ class _DatabaseDebugScreenState extends State<DatabaseDebugScreen> {
           '${model.investmentYears ?? ''}',
           model.investmentYears.runtimeType,
         ),
+        _buildDetailRowWithType(
+          'Investment Type',
+          model.investmentType?.toString() ?? '',
+          model.investmentType.runtimeType,
+        ),
         _buildDetailRowWithType('Final Amount', _formatNumberClean(model.finalAmount), model.finalAmount.runtimeType),
         _buildDetailRowWithType(
           'Total Contributions',
@@ -422,15 +427,55 @@ class _DatabaseDebugScreenState extends State<DatabaseDebugScreen> {
           model.currentSavings.runtimeType,
         ),
         _buildDetailRowWithType(
+          'Annual Interest Rate',
+          _formatNumberClean(model.annualInterestRate),
+          model.annualInterestRate.runtimeType,
+        ),
+        _buildDetailRowWithType(
+          'Inflation Rate',
+          _formatNumberClean(model.inflationRate),
+          model.inflationRate.runtimeType,
+        ),
+        _buildDetailRowWithType('Life Expectancy', '${model.lifeExpectancy ?? ''}', model.lifeExpectancy.runtimeType),
+        _buildDetailRowWithType(
           'Monthly Expenses',
           _formatNumberClean(model.monthlyExpenses),
           model.monthlyExpenses.runtimeType,
         ),
-        _buildDetailRowWithType('Life Expectancy', '${model.lifeExpectancy ?? ''}', model.lifeExpectancy.runtimeType),
+        _buildDetailRowWithType(
+          'Years Until Retirement',
+          '${model.yearsUntilRetirement ?? ''}',
+          model.yearsUntilRetirement.runtimeType,
+        ),
+        _buildDetailRowWithType(
+          'Years In Retirement',
+          '${model.yearsInRetirement ?? ''}',
+          model.yearsInRetirement.runtimeType,
+        ),
+        _buildDetailRowWithType(
+          'Current Monthly Expenses',
+          _formatNumberClean(model.currentMonthlyExpenses),
+          model.currentMonthlyExpenses.runtimeType,
+        ),
+        _buildDetailRowWithType(
+          'Retirement Monthly Expenses',
+          _formatNumberClean(model.retirementMonthlyExpenses),
+          model.retirementMonthlyExpenses.runtimeType,
+        ),
         _buildDetailRowWithType(
           'Total Retirement Needed',
           _formatNumberClean(model.totalRetirementNeeded),
           model.totalRetirementNeeded.runtimeType,
+        ),
+        _buildDetailRowWithType(
+          'Current Savings Growth',
+          _formatNumberClean(model.currentSavingsGrowth),
+          model.currentSavingsGrowth.runtimeType,
+        ),
+        _buildDetailRowWithType(
+          'Additional Savings Needed',
+          _formatNumberClean(model.additionalSavingsNeeded),
+          model.additionalSavingsNeeded.runtimeType,
         ),
         _buildDetailRowWithType(
           'Monthly Savings Needed',
