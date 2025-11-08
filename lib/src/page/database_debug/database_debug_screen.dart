@@ -283,17 +283,46 @@ class _DatabaseDebugScreenState extends State<DatabaseDebugScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildDetailRow('Savings Goal', '฿${_formatNumber(model.savingsGoal)}'),
-        _buildDetailRow('Current Savings', '฿${_formatNumber(model.currentSavings)}'),
-        _buildDetailRow('Monthly Deposit', '฿${_formatNumber(model.monthlyDeposit)}'),
-        _buildDetailRow('Interest Rate', '${model.interestRate?.toStringAsFixed(2) ?? 'N/A'}%'),
-        _buildDetailRow('Time to Goal', '${model.timeToGoalMonths ?? 'N/A'} months'),
-        _buildDetailRow('Final Amount', '฿${_formatNumber(model.finalAmount)}'),
-        _buildDetailRow('Total Deposits', '฿${_formatNumber(model.totalDeposits)}'),
-        _buildDetailRow('Total Interest', '฿${_formatNumber(model.totalInterest)}'),
-        if (model.calculatedDate != null) _buildDetailRow('Calculated Date', _formatDate(model.calculatedDate!)),
+        _buildDetailRowWithType('Savings Goal', _formatNumberClean(model.savingsGoal), model.savingsGoal.runtimeType),
+        _buildDetailRowWithType(
+          'Current Savings',
+          _formatNumberClean(model.currentSavings),
+          model.currentSavings.runtimeType,
+        ),
+        _buildDetailRowWithType(
+          'Monthly Deposit',
+          _formatNumberClean(model.monthlyDeposit),
+          model.monthlyDeposit.runtimeType,
+        ),
+        _buildDetailRowWithType(
+          'Interest Rate',
+          _formatNumberClean(model.interestRate),
+          model.interestRate.runtimeType,
+        ),
+        _buildDetailRowWithType('Time to Goal', '${model.timeToGoalMonths ?? ''}', model.timeToGoalMonths.runtimeType),
+        _buildDetailRowWithType('Final Amount', _formatNumberClean(model.finalAmount), model.finalAmount.runtimeType),
+        _buildDetailRowWithType(
+          'Total Deposits',
+          _formatNumberClean(model.totalDeposits),
+          model.totalDeposits.runtimeType,
+        ),
+        _buildDetailRowWithType(
+          'Total Interest',
+          _formatNumberClean(model.totalInterest),
+          model.totalInterest.runtimeType,
+        ),
+        if (model.calculatedDate != null)
+          _buildDetailRowWithType(
+            'Calculated Date',
+            _formatDate(model.calculatedDate!),
+            model.calculatedDate.runtimeType,
+          ),
         if (model.goalAchievementDate != null)
-          _buildDetailRow('Achievement Date', _formatDate(model.goalAchievementDate!)),
+          _buildDetailRowWithType(
+            'Achievement Date',
+            _formatDate(model.goalAchievementDate!),
+            model.goalAchievementDate.runtimeType,
+          ),
       ],
     );
   }
@@ -302,15 +331,36 @@ class _DatabaseDebugScreenState extends State<DatabaseDebugScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildDetailRow('House Price', '฿${_formatNumber(model.housePrice)}'),
-        _buildDetailRow('Down Payment', '฿${_formatNumber(model.downPayment)}'),
-        _buildDetailRow('Loan Amount', '฿${_formatNumber(model.loanAmount)}'),
-        _buildDetailRow('Interest Rate', '${model.interestRate?.toStringAsFixed(2) ?? 'N/A'}%'),
-        _buildDetailRow('Loan Term', '${model.loanTermYears ?? 'N/A'} years'),
-        _buildDetailRow('Monthly Payment', '฿${_formatNumber(model.monthlyPayment)}'),
-        _buildDetailRow('Total Payment', '฿${_formatNumber(model.totalPayment)}'),
-        _buildDetailRow('Total Interest', '฿${_formatNumber(model.totalInterest)}'),
-        if (model.calculatedDate != null) _buildDetailRow('Calculated Date', _formatDate(model.calculatedDate!)),
+        _buildDetailRowWithType('House Price', _formatNumberClean(model.housePrice), model.housePrice.runtimeType),
+        _buildDetailRowWithType('Down Payment', _formatNumberClean(model.downPayment), model.downPayment.runtimeType),
+        _buildDetailRowWithType('Loan Amount', _formatNumberClean(model.loanAmount), model.loanAmount.runtimeType),
+        _buildDetailRowWithType(
+          'Interest Rate',
+          _formatNumberClean(model.interestRate),
+          model.interestRate.runtimeType,
+        ),
+        _buildDetailRowWithType('Loan Term', '${model.loanTermYears ?? ''}', model.loanTermYears.runtimeType),
+        _buildDetailRowWithType(
+          'Monthly Payment',
+          _formatNumberClean(model.monthlyPayment),
+          model.monthlyPayment.runtimeType,
+        ),
+        _buildDetailRowWithType(
+          'Total Payment',
+          _formatNumberClean(model.totalPayment),
+          model.totalPayment.runtimeType,
+        ),
+        _buildDetailRowWithType(
+          'Total Interest',
+          _formatNumberClean(model.totalInterest),
+          model.totalInterest.runtimeType,
+        ),
+        if (model.calculatedDate != null)
+          _buildDetailRowWithType(
+            'Calculated Date',
+            _formatDate(model.calculatedDate!),
+            model.calculatedDate.runtimeType,
+          ),
       ],
     );
   }
@@ -319,14 +369,43 @@ class _DatabaseDebugScreenState extends State<DatabaseDebugScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildDetailRow('Initial Investment', '฿${_formatNumber(model.initialInvestment)}'),
-        _buildDetailRow('Monthly Contribution', '฿${_formatNumber(model.monthlyContribution)}'),
-        _buildDetailRow('Annual Return Rate', '${model.annualReturnRate?.toStringAsFixed(2) ?? 'N/A'}%'),
-        _buildDetailRow('Investment Years', '${model.investmentYears ?? 'N/A'} years'),
-        _buildDetailRow('Final Amount', '฿${_formatNumber(model.finalAmount)}'),
-        _buildDetailRow('Total Contributions', '฿${_formatNumber(model.totalContributions)}'),
-        _buildDetailRow('Total Returns', '฿${_formatNumber(model.totalReturns)}'),
-        if (model.calculatedDate != null) _buildDetailRow('Calculated Date', _formatDate(model.calculatedDate!)),
+        _buildDetailRowWithType(
+          'Initial Investment',
+          _formatNumberClean(model.initialInvestment),
+          model.initialInvestment.runtimeType,
+        ),
+        _buildDetailRowWithType(
+          'Monthly Contribution',
+          _formatNumberClean(model.monthlyContribution),
+          model.monthlyContribution.runtimeType,
+        ),
+        _buildDetailRowWithType(
+          'Annual Return Rate',
+          _formatNumberClean(model.annualReturnRate),
+          model.annualReturnRate.runtimeType,
+        ),
+        _buildDetailRowWithType(
+          'Investment Years',
+          '${model.investmentYears ?? ''}',
+          model.investmentYears.runtimeType,
+        ),
+        _buildDetailRowWithType('Final Amount', _formatNumberClean(model.finalAmount), model.finalAmount.runtimeType),
+        _buildDetailRowWithType(
+          'Total Contributions',
+          _formatNumberClean(model.totalContributions),
+          model.totalContributions.runtimeType,
+        ),
+        _buildDetailRowWithType(
+          'Total Returns',
+          _formatNumberClean(model.totalReturns),
+          model.totalReturns.runtimeType,
+        ),
+        if (model.calculatedDate != null)
+          _buildDetailRowWithType(
+            'Calculated Date',
+            _formatDate(model.calculatedDate!),
+            model.calculatedDate.runtimeType,
+          ),
       ],
     );
   }
@@ -335,14 +414,35 @@ class _DatabaseDebugScreenState extends State<DatabaseDebugScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildDetailRow('Current Age', '${model.currentAge ?? 'N/A'}'),
-        _buildDetailRow('Retirement Age', '${model.retirementAge ?? 'N/A'}'),
-        _buildDetailRow('Current Savings', '฿${_formatNumber(model.currentSavings)}'),
-        _buildDetailRow('Monthly Expenses', '฿${_formatNumber(model.monthlyExpenses)}'),
-        _buildDetailRow('Life Expectancy', '${model.lifeExpectancy ?? 'N/A'}'),
-        _buildDetailRow('Total Retirement Needed', '฿${_formatNumber(model.totalRetirementNeeded)}'),
-        _buildDetailRow('Monthly Savings Needed', '฿${_formatNumber(model.monthlySavingsNeeded)}'),
-        if (model.calculatedDate != null) _buildDetailRow('Calculated Date', _formatDate(model.calculatedDate!)),
+        _buildDetailRowWithType('Current Age', '${model.currentAge ?? ''}', model.currentAge.runtimeType),
+        _buildDetailRowWithType('Retirement Age', '${model.retirementAge ?? ''}', model.retirementAge.runtimeType),
+        _buildDetailRowWithType(
+          'Current Savings',
+          _formatNumberClean(model.currentSavings),
+          model.currentSavings.runtimeType,
+        ),
+        _buildDetailRowWithType(
+          'Monthly Expenses',
+          _formatNumberClean(model.monthlyExpenses),
+          model.monthlyExpenses.runtimeType,
+        ),
+        _buildDetailRowWithType('Life Expectancy', '${model.lifeExpectancy ?? ''}', model.lifeExpectancy.runtimeType),
+        _buildDetailRowWithType(
+          'Total Retirement Needed',
+          _formatNumberClean(model.totalRetirementNeeded),
+          model.totalRetirementNeeded.runtimeType,
+        ),
+        _buildDetailRowWithType(
+          'Monthly Savings Needed',
+          _formatNumberClean(model.monthlySavingsNeeded),
+          model.monthlySavingsNeeded.runtimeType,
+        ),
+        if (model.calculatedDate != null)
+          _buildDetailRowWithType(
+            'Calculated Date',
+            _formatDate(model.calculatedDate!),
+            model.calculatedDate.runtimeType,
+          ),
       ],
     );
   }
@@ -351,20 +451,41 @@ class _DatabaseDebugScreenState extends State<DatabaseDebugScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildDetailRow('Car Price', '฿${_formatNumber(model.carPrice)}'),
-        _buildDetailRow('Down Payment', '฿${_formatNumber(model.downPayment)}'),
-        _buildDetailRow('Loan Amount', '฿${_formatNumber(model.loanAmount)}'),
-        _buildDetailRow('Interest Rate', '${model.interestRate?.toStringAsFixed(2) ?? 'N/A'}%'),
-        _buildDetailRow('Loan Term', '${model.loanTermYears ?? 'N/A'} years'),
-        _buildDetailRow('Monthly Payment', '฿${_formatNumber(model.monthlyPayment)}'),
-        _buildDetailRow('Total Payment', '฿${_formatNumber(model.totalPayment)}'),
-        _buildDetailRow('Total Interest', '฿${_formatNumber(model.totalInterest)}'),
-        if (model.calculatedDate != null) _buildDetailRow('Calculated Date', _formatDate(model.calculatedDate!)),
+        _buildDetailRowWithType('Car Price', _formatNumberClean(model.carPrice), model.carPrice.runtimeType),
+        _buildDetailRowWithType('Down Payment', _formatNumberClean(model.downPayment), model.downPayment.runtimeType),
+        _buildDetailRowWithType('Loan Amount', _formatNumberClean(model.loanAmount), model.loanAmount.runtimeType),
+        _buildDetailRowWithType(
+          'Interest Rate',
+          _formatNumberClean(model.interestRate),
+          model.interestRate.runtimeType,
+        ),
+        _buildDetailRowWithType('Loan Term', '${model.loanTermYears ?? ''}', model.loanTermYears.runtimeType),
+        _buildDetailRowWithType(
+          'Monthly Payment',
+          _formatNumberClean(model.monthlyPayment),
+          model.monthlyPayment.runtimeType,
+        ),
+        _buildDetailRowWithType(
+          'Total Payment',
+          _formatNumberClean(model.totalPayment),
+          model.totalPayment.runtimeType,
+        ),
+        _buildDetailRowWithType(
+          'Total Interest',
+          _formatNumberClean(model.totalInterest),
+          model.totalInterest.runtimeType,
+        ),
+        if (model.calculatedDate != null)
+          _buildDetailRowWithType(
+            'Calculated Date',
+            _formatDate(model.calculatedDate!),
+            model.calculatedDate.runtimeType,
+          ),
       ],
     );
   }
 
-  Widget _buildDetailRow(String label, String value) {
+  Widget _buildDetailRowWithType(String label, String value, Type type) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
@@ -375,9 +496,29 @@ class _DatabaseDebugScreenState extends State<DatabaseDebugScreen> {
             child: Text('$label:', style: TextStyle(color: Colors.white.withOpacity(0.7), fontSize: 13)),
           ),
           Expanded(
-            child: SelectableText(
-              value,
-              style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w500),
+            child: RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: type.toString(),
+                    style: TextStyle(
+                      color: Colors.amber.shade300,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: 'monospace',
+                    ),
+                  ),
+                  const TextSpan(text: ' ', style: TextStyle(fontSize: 13)),
+                  TextSpan(
+                    text: value.isEmpty ? '(empty)' : value,
+                    style: TextStyle(
+                      color: value.isEmpty ? Colors.white54 : Colors.white,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -467,9 +608,9 @@ class _DatabaseDebugScreenState extends State<DatabaseDebugScreen> {
     return 'N/A';
   }
 
-  String _formatNumber(double? number) {
-    if (number == null) return 'N/A';
-    return number.toStringAsFixed(2).replaceAllMapped(RegExp(r'(\d)(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},');
+  String _formatNumberClean(double? number) {
+    if (number == null) return '';
+    return number.toStringAsFixed(2);
   }
 
   String _formatDate(DateTime date) {
