@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:fin_calc/src/data/repositories/car_loan_repository_impl.dart';
 import 'package:fin_calc/src/page/car_loan_calculator/bloc/car_loan_calculator_cubit.dart';
 import 'package:fin_calc/src/page/car_loan_calculator_details/car_loan_calculator_details.dart';
+import 'package:fin_calc/src/page/database_debug/database_debug_screen.dart';
 
 // Custom number formatter
 class NumberTextInputFormatter extends TextInputFormatter {
@@ -82,6 +83,13 @@ class _CarLoanCalculatorViewState extends State<CarLoanCalculatorView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const DatabaseDebugScreen()));
+        },
+        backgroundColor: const Color(0xFF6C63FF),
+        child: const Icon(Icons.storage, color: Colors.white),
+      ),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Container(
@@ -162,9 +170,7 @@ class _CarLoanCalculatorViewState extends State<CarLoanCalculatorView> {
         ),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: Colors.white.withOpacity(0.3), width: 1),
-        boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.08), blurRadius: 16, offset: const Offset(0, 8)),
-        ],
+        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.08), blurRadius: 16, offset: const Offset(0, 8))],
       ),
       child: Row(
         children: [
@@ -184,20 +190,12 @@ class _CarLoanCalculatorViewState extends State<CarLoanCalculatorView> {
           const Expanded(
             child: Text(
               'สินเชื่อรถยนต์',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-                letterSpacing: 0.3,
-              ),
+              style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600, letterSpacing: 0.3),
             ),
           ),
           Container(
             padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(10),
-            ),
+            decoration: BoxDecoration(color: Colors.white.withOpacity(0.1), borderRadius: BorderRadius.circular(10)),
             child: const Icon(Icons.directions_car_outlined, color: Colors.white, size: 20),
           ),
         ],
@@ -301,7 +299,10 @@ class _CarLoanCalculatorViewState extends State<CarLoanCalculatorView> {
               child: TextButton.icon(
                 onPressed: _clearData,
                 icon: const Icon(Icons.refresh_rounded, color: Colors.white, size: 18),
-                label: const Text('รีเซ็ต', style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w600)),
+                label: const Text(
+                  'รีเซ็ต',
+                  style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w600),
+                ),
                 style: TextButton.styleFrom(
                   backgroundColor: const Color(0xFF2D3748),
                   padding: const EdgeInsets.symmetric(vertical: 14),
@@ -323,7 +324,10 @@ class _CarLoanCalculatorViewState extends State<CarLoanCalculatorView> {
               child: ElevatedButton.icon(
                 onPressed: _submitCalculation,
                 icon: const Icon(Icons.calculate_rounded, color: Colors.white, size: 18),
-                label: const Text('คำนวณผลลัพธ์', style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w600)),
+                label: const Text(
+                  'คำนวณผลลัพธ์',
+                  style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w600),
+                ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.transparent,
                   shadowColor: Colors.transparent,
@@ -367,7 +371,10 @@ class _CarLoanCalculatorViewState extends State<CarLoanCalculatorView> {
                 child: const Icon(Icons.analytics_rounded, color: Colors.white, size: 20),
               ),
               const SizedBox(width: 12),
-              const Text('ผลการคำนวณ', style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600)),
+              const Text(
+                'ผลการคำนวณ',
+                style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),
+              ),
             ],
           ),
           const SizedBox(height: 20),
@@ -381,7 +388,10 @@ class _CarLoanCalculatorViewState extends State<CarLoanCalculatorView> {
             ),
             child: Column(
               children: [
-                const Text('ค่างวดต่อเดือน', style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500)),
+                const Text(
+                  'ค่างวดต่อเดือน',
+                  style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
+                ),
                 const SizedBox(height: 8),
                 Text(
                   '${numberFormat.format(calculation.monthlyPayment ?? 0)} บาท',
@@ -405,7 +415,11 @@ class _CarLoanCalculatorViewState extends State<CarLoanCalculatorView> {
                 _buildDetailRow('จำนวนเงินกู้', '${numberFormat.format(calculation.loanAmount ?? 0)} บาท'),
                 _buildDetailRow('ดอกเบี้ยรวม', '${numberFormat.format(calculation.totalInterest ?? 0)} บาท'),
                 const Divider(color: Colors.white54, height: 20),
-                _buildDetailRow('ยอดชำระรวมทั้งหมด', '${numberFormat.format(calculation.totalPayment ?? 0)} บาท', isTotal: true),
+                _buildDetailRow(
+                  'ยอดชำระรวมทั้งหมด',
+                  '${numberFormat.format(calculation.totalPayment ?? 0)} บาท',
+                  isTotal: true,
+                ),
               ],
             ),
           ),
@@ -425,7 +439,10 @@ class _CarLoanCalculatorViewState extends State<CarLoanCalculatorView> {
                 );
               },
               icon: const Icon(Icons.table_rows_rounded, color: Colors.white, size: 18),
-              label: const Text('ดูรายละเอียดเพิ่มเติม', style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w500)),
+              label: const Text(
+                'ดูรายละเอียดเพิ่มเติม',
+                style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w500),
+              ),
               style: TextButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 12),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
@@ -477,7 +494,10 @@ class _CarLoanCalculatorViewState extends State<CarLoanCalculatorView> {
           const Icon(Icons.error_outline, color: Colors.redAccent, size: 24),
           const SizedBox(width: 12),
           Expanded(
-            child: Text(message, style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500)),
+            child: Text(
+              message,
+              style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
+            ),
           ),
         ],
       ),

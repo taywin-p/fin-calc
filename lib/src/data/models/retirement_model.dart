@@ -74,23 +74,23 @@ class RetirementModel extends Equatable {
 
   @override
   List<Object?> get props => [
-        currentAge,
-        retirementAge,
-        currentSavings,
-        annualInterestRate,
-        inflationRate,
-        lifeExpectancy,
-        monthlyExpenses,
-        yearsUntilRetirement,
-        yearsInRetirement,
-        currentMonthlyExpenses,
-        retirementMonthlyExpenses,
-        totalRetirementNeeded,
-        currentSavingsGrowth,
-        additionalSavingsNeeded,
-        monthlySavingsNeeded,
-        calculatedDate,
-      ];
+    currentAge,
+    retirementAge,
+    currentSavings,
+    annualInterestRate,
+    inflationRate,
+    lifeExpectancy,
+    monthlyExpenses,
+    yearsUntilRetirement,
+    yearsInRetirement,
+    currentMonthlyExpenses,
+    retirementMonthlyExpenses,
+    totalRetirementNeeded,
+    currentSavingsGrowth,
+    additionalSavingsNeeded,
+    monthlySavingsNeeded,
+    calculatedDate,
+  ];
 
   RetirementModel copyWith({
     int? currentAge,
@@ -128,5 +128,27 @@ class RetirementModel extends Equatable {
       monthlySavingsNeeded: monthlySavingsNeeded ?? this.monthlySavingsNeeded,
       calculatedDate: calculatedDate ?? this.calculatedDate,
     );
+  }
+
+  // For Hive UI compatibility
+  Map<String, dynamic> toJson() {
+    return {
+      'currentAge': currentAge,
+      'retirementAge': retirementAge,
+      'currentSavings': currentSavings,
+      'annualInterestRate': annualInterestRate,
+      'inflationRate': inflationRate,
+      'lifeExpectancy': lifeExpectancy,
+      'monthlyExpenses': monthlyExpenses,
+      'yearsUntilRetirement': yearsUntilRetirement,
+      'yearsInRetirement': yearsInRetirement,
+      'currentMonthlyExpenses': currentMonthlyExpenses,
+      'retirementMonthlyExpenses': retirementMonthlyExpenses,
+      'totalRetirementNeeded': totalRetirementNeeded,
+      'currentSavingsGrowth': currentSavingsGrowth,
+      'additionalSavingsNeeded': additionalSavingsNeeded,
+      'monthlySavingsNeeded': monthlySavingsNeeded,
+      'calculatedDate': calculatedDate?.toIso8601String(),
+    };
   }
 }

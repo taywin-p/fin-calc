@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 
 import 'package:fin_calc/src/data/repositories/retirement_repository_impl.dart';
 import 'package:fin_calc/src/page/retirement_calculator/bloc/retirement_calculator_cubit.dart';
+import 'package:fin_calc/src/page/database_debug/database_debug_screen.dart';
 
 // Custom number formatter for comma-separated numbers
 class NumberTextInputFormatter extends TextInputFormatter {
@@ -106,6 +107,13 @@ class _RetirementCalculatorViewState extends State<RetirementCalculatorView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const DatabaseDebugScreen()));
+        },
+        backgroundColor: const Color(0xFF6C63FF),
+        child: const Icon(Icons.storage, color: Colors.white),
+      ),
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
@@ -467,7 +475,7 @@ class _RetirementCalculatorViewState extends State<RetirementCalculatorView> {
             ],
           ),
           const SizedBox(height: 20),
-          
+
           // Timeline Highlight
           Container(
             width: double.infinity,
@@ -480,20 +488,14 @@ class _RetirementCalculatorViewState extends State<RetirementCalculatorView> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _buildTimelineItem(
-                  label: 'ระยะเวลา\nก่อนเกษียณ',
-                  value: '${calculation.yearsUntilRetirement ?? 0} ปี',
-                ),
+                _buildTimelineItem(label: 'ระยะเวลา\nก่อนเกษียณ', value: '${calculation.yearsUntilRetirement ?? 0} ปี'),
                 Container(width: 1, height: 40, color: Colors.white.withOpacity(0.4)),
-                _buildTimelineItem(
-                  label: 'ใช้เงิน\nหลังเกษียณ',
-                  value: '${calculation.yearsInRetirement ?? 0} ปี',
-                ),
+                _buildTimelineItem(label: 'ใช้เงิน\nหลังเกษียณ', value: '${calculation.yearsInRetirement ?? 0} ปี'),
               ],
             ),
           ),
           const SizedBox(height: 16),
-          
+
           // Expenses Comparison
           Container(
             padding: const EdgeInsets.all(16),
@@ -522,7 +524,7 @@ class _RetirementCalculatorViewState extends State<RetirementCalculatorView> {
             ),
           ),
           const SizedBox(height: 16),
-          
+
           // Savings Required
           Container(
             padding: const EdgeInsets.all(16),
@@ -574,21 +576,10 @@ class _RetirementCalculatorViewState extends State<RetirementCalculatorView> {
         Text(
           label,
           textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Colors.white.withOpacity(0.9),
-            fontSize: 12,
-            fontWeight: FontWeight.w500,
-          ),
+          style: TextStyle(color: Colors.white.withOpacity(0.9), fontSize: 12, fontWeight: FontWeight.w500),
         ),
         const SizedBox(height: 8),
-        Text(
-          value,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        Text(value, style: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold)),
       ],
     );
   }

@@ -87,6 +87,22 @@ class SavingsModel extends Equatable {
       goalAchievementDate: goalAchievementDate ?? this.goalAchievementDate,
     );
   }
+
+  // For Hive UI compatibility
+  Map<String, dynamic> toJson() {
+    return {
+      'savingsGoal': savingsGoal,
+      'currentSavings': currentSavings,
+      'monthlyDeposit': monthlyDeposit,
+      'interestRate': interestRate,
+      'timeToGoalMonths': timeToGoalMonths,
+      'finalAmount': finalAmount,
+      'totalDeposits': totalDeposits,
+      'totalInterest': totalInterest,
+      'calculatedDate': calculatedDate?.toIso8601String(),
+      'goalAchievementDate': goalAchievementDate?.toIso8601String(),
+    };
+  }
 }
 
 @HiveType(typeId: 5)

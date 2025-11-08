@@ -46,16 +46,16 @@ class CarLoanModel extends Equatable {
 
   @override
   List<Object?> get props => [
-        carPrice,
-        downPayment,
-        interestRate,
-        loanTermYears,
-        monthlyPayment,
-        loanAmount,
-        totalInterest,
-        totalPayment,
-        calculatedDate,
-      ];
+    carPrice,
+    downPayment,
+    interestRate,
+    loanTermYears,
+    monthlyPayment,
+    loanAmount,
+    totalInterest,
+    totalPayment,
+    calculatedDate,
+  ];
 
   CarLoanModel copyWith({
     double? carPrice,
@@ -79,6 +79,21 @@ class CarLoanModel extends Equatable {
       totalPayment: totalPayment ?? this.totalPayment,
       calculatedDate: calculatedDate ?? this.calculatedDate,
     );
+  }
+
+  // For Hive UI compatibility
+  Map<String, dynamic> toJson() {
+    return {
+      'carPrice': carPrice,
+      'downPayment': downPayment,
+      'interestRate': interestRate,
+      'loanTermYears': loanTermYears,
+      'monthlyPayment': monthlyPayment,
+      'loanAmount': loanAmount,
+      'totalInterest': totalInterest,
+      'totalPayment': totalPayment,
+      'calculatedDate': calculatedDate?.toIso8601String(),
+    };
   }
 }
 

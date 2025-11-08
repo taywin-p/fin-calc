@@ -1,6 +1,7 @@
 import 'package:fin_calc/src/data/repositories/home_loan_repository_impl.dart';
 import 'package:fin_calc/src/page/home_loan_calculator/home_loan_calculator.dart';
 import 'package:fin_calc/src/page/home_loan_calculator_details/home_loan_calculator_details.dart';
+import 'package:fin_calc/src/page/database_debug/database_debug_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -72,7 +73,7 @@ class _HomeLoanCalculatorViewState extends State<HomeLoanCalculatorView> {
   void _submitCalculation() {
     // ซ่อน keyboard ก่อนคำนวณ
     FocusScope.of(context).unfocus();
-    
+
     context.read<HomeLoanCalculatorCubit>().calculate(
       housePrice: _extractNumericValue(_housePriceController.text),
       downPayment: _extractNumericValue(_downPaymentController.text),
@@ -84,7 +85,7 @@ class _HomeLoanCalculatorViewState extends State<HomeLoanCalculatorView> {
   void _clearData() {
     // ซ่อน keyboard ก่อน reset
     FocusScope.of(context).unfocus();
-    
+
     context.read<HomeLoanCalculatorCubit>().clear();
     _housePriceController.clear();
     _downPaymentController.clear();
@@ -95,6 +96,13 @@ class _HomeLoanCalculatorViewState extends State<HomeLoanCalculatorView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const DatabaseDebugScreen()));
+        },
+        backgroundColor: const Color(0xFF6C63FF),
+        child: const Icon(Icons.storage, color: Colors.white),
+      ),
       body: GestureDetector(
         onTap: () {
           // ซ่อน keyboard เมื่อแตะที่พื้นที่ว่าง
@@ -110,122 +118,122 @@ class _HomeLoanCalculatorViewState extends State<HomeLoanCalculatorView> {
           ),
           child: SafeArea(
             child: BlocListener<HomeLoanCalculatorCubit, HomeLoanCalculatorState>(
-            listener: (context, state) {
-              if (state is HomeLoanCalculatorLoaded) {
-                final calc = state.calculation;
-                final formatter = NumberFormat('#,###');
-                if (calc.housePrice != null && calc.housePrice! > 0) {
-                  _housePriceController.text = formatter.format(calc.housePrice!.toInt());
+              listener: (context, state) {
+                if (state is HomeLoanCalculatorLoaded) {
+                  final calc = state.calculation;
+                  final formatter = NumberFormat('#,###');
+                  if (calc.housePrice != null && calc.housePrice! > 0) {
+                    _housePriceController.text = formatter.format(calc.housePrice!.toInt());
+                  }
+                  if (calc.downPayment != null && calc.downPayment! > 0) {
+                    _downPaymentController.text = formatter.format(calc.downPayment!.toInt());
+                  }
+                  if (calc.interestRate != null && calc.interestRate! > 0) {
+                    _interestRateController.text = calc.interestRate!.toString();
+                  }
+                  if (calc.loanTermYears != null && calc.loanTermYears! > 0) {
+                    _loanTermYearsController.text = calc.loanTermYears!.toString();
+                  }
                 }
-                if (calc.downPayment != null && calc.downPayment! > 0) {
-                  _downPaymentController.text = formatter.format(calc.downPayment!.toInt());
-                }
-                if (calc.interestRate != null && calc.interestRate! > 0) {
-                  _interestRateController.text = calc.interestRate!.toString();
-                }
-                if (calc.loanTermYears != null && calc.loanTermYears! > 0) {
-                  _loanTermYearsController.text = calc.loanTermYears!.toString();
-                }
-              }
-            },
-            child: Column(
-              children: [
-                // AppBar
-                Container(
-                  margin: const EdgeInsets.fromLTRB(16, 8, 16, 0),
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [Colors.white.withOpacity(0.25), Colors.white.withOpacity(0.1)],
+              },
+              child: Column(
+                children: [
+                  // AppBar
+                  Container(
+                    margin: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [Colors.white.withOpacity(0.25), Colors.white.withOpacity(0.1)],
+                      ),
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: Colors.white.withOpacity(0.3), width: 1),
+                      boxShadow: [
+                        BoxShadow(color: Colors.black.withOpacity(0.08), blurRadius: 16, offset: const Offset(0, 8)),
+                        BoxShadow(color: Colors.white.withOpacity(0.05), blurRadius: 8, offset: const Offset(-2, -2)),
+                      ],
                     ),
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: Colors.white.withOpacity(0.3), width: 1),
-                    boxShadow: [
-                      BoxShadow(color: Colors.black.withOpacity(0.08), blurRadius: 16, offset: const Offset(0, 8)),
-                      BoxShadow(color: Colors.white.withOpacity(0.05), blurRadius: 8, offset: const Offset(-2, -2)),
-                    ],
-                  ),
-                  child: Row(
-                    children: [
-                      // Back Button
-                      GestureDetector(
-                        onTap: () => Navigator.of(context).pop(),
-                        child: Container(
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.15),
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: Colors.white.withOpacity(0.2), width: 1),
-                          ),
-                          child: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white, size: 18),
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      // Title Section
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Text(
-                              'สินเชื่อบ้าน',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                                letterSpacing: 0.3,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      // Icon
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: const Icon(Icons.home_work_rounded, color: Colors.white, size: 20),
-                      ),
-                    ],
-                  ),
-                ),
-
-                // Spacing between AppBar and Content
-                const SizedBox(height: 24),
-
-                Expanded(
-                  child: SingleChildScrollView(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Column(
+                    child: Row(
                       children: [
-                        _buildInputSection(),
-                        const SizedBox(height: 24),
-                        _buildActionButtons(),
-                        const SizedBox(height: 24),
-                        BlocBuilder<HomeLoanCalculatorCubit, HomeLoanCalculatorState>(
-                          builder: (context, state) {
-                            if (state is HomeLoanCalculatorLoaded) {
-                              if (state.calculation.monthlyPayment == null || state.calculation.monthlyPayment == 0) {
-                                return const SizedBox.shrink();
-                              }
-                              return _buildSummarySection(state.calculation);
-                            }
-                            return const CircularProgressIndicator();
-                          },
+                        // Back Button
+                        GestureDetector(
+                          onTap: () => Navigator.of(context).pop(),
+                          child: Container(
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.15),
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(color: Colors.white.withOpacity(0.2), width: 1),
+                            ),
+                            child: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white, size: 18),
+                          ),
                         ),
-                        const SizedBox(height: 20),
+                        const SizedBox(width: 12),
+                        // Title Section
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Text(
+                                'สินเชื่อบ้าน',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                  letterSpacing: 0.3,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        // Icon
+                        Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: const Icon(Icons.home_work_rounded, color: Colors.white, size: 20),
+                        ),
                       ],
                     ),
                   ),
-                ),
-              ],
-            ),
-          ), // ปิด BlocListener
-        ), // ปิด SafeArea
+
+                  // Spacing between AppBar and Content
+                  const SizedBox(height: 24),
+
+                  Expanded(
+                    child: SingleChildScrollView(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Column(
+                        children: [
+                          _buildInputSection(),
+                          const SizedBox(height: 24),
+                          _buildActionButtons(),
+                          const SizedBox(height: 24),
+                          BlocBuilder<HomeLoanCalculatorCubit, HomeLoanCalculatorState>(
+                            builder: (context, state) {
+                              if (state is HomeLoanCalculatorLoaded) {
+                                if (state.calculation.monthlyPayment == null || state.calculation.monthlyPayment == 0) {
+                                  return const SizedBox.shrink();
+                                }
+                                return _buildSummarySection(state.calculation);
+                              }
+                              return const CircularProgressIndicator();
+                            },
+                          ),
+                          const SizedBox(height: 20),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ), // ปิด BlocListener
+          ), // ปิด SafeArea
         ), // ปิด GestureDetector
       ), // ปิด Container
     ); // ปิด Scaffold

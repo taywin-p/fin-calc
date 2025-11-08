@@ -80,6 +80,21 @@ class InvestmentModel extends Equatable {
       calculatedDate: calculatedDate ?? this.calculatedDate,
     );
   }
+
+  // For Hive UI compatibility
+  Map<String, dynamic> toJson() {
+    return {
+      'initialInvestment': initialInvestment,
+      'monthlyContribution': monthlyContribution,
+      'annualReturnRate': annualReturnRate,
+      'investmentYears': investmentYears,
+      'investmentType': investmentType?.name,
+      'finalAmount': finalAmount,
+      'totalContributions': totalContributions,
+      'totalReturns': totalReturns,
+      'calculatedDate': calculatedDate?.toIso8601String(),
+    };
+  }
 }
 
 @HiveType(typeId: 7)

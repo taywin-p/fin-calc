@@ -5,6 +5,7 @@ import '../../data/services/investment_service.dart';
 import 'bloc/investment_calculator_cubit.dart';
 import 'widgets/investment_input_section.dart';
 import '../investment_calculator_details/investment_calculator_details.dart';
+import '../database_debug/database_debug_screen.dart';
 
 class InvestmentCalculatorPage extends StatefulWidget {
   const InvestmentCalculatorPage({super.key});
@@ -43,12 +44,12 @@ class _InvestmentCalculatorPageState extends State<InvestmentCalculatorPage> {
       _monthlyContributionController.text = calculation.monthlyContribution?.toStringAsFixed(0) ?? '2000';
       _annualReturnController.text = calculation.annualReturnRate?.toStringAsFixed(1) ?? '8.0';
       _yearsController.text = calculation.investmentYears?.toString() ?? '10';
-      
+
       // Set investment type based on return rate
       if (calculation.annualReturnRate != null) {
         _selectedInvestmentType = _getInvestmentTypeFromRate(calculation.annualReturnRate!);
       }
-      
+
       _isInitialized = true;
     } else if (!_isInitialized) {
       // Set default values if no saved data
@@ -106,10 +107,7 @@ class _InvestmentCalculatorPageState extends State<InvestmentCalculatorPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => InvestmentCalculatorDetailsPage(
-          calculation: calculation,
-          scheduleItems: schedule,
-        ),
+        builder: (context) => InvestmentCalculatorDetailsPage(calculation: calculation, scheduleItems: schedule),
       ),
     );
   }
@@ -128,13 +126,13 @@ class _InvestmentCalculatorPageState extends State<InvestmentCalculatorPage> {
     _yearsController.text = '10';
 
     _updateReturnRateFromType();
-    
+
     context.read<InvestmentCalculatorCubit>().clear();
   }
 
   void _calculateAndNavigateToDetails() {
     _calculateInvestment();
-    
+
     // Wait for calculation to complete then navigate
     Future.delayed(const Duration(milliseconds: 500), () {
       final state = context.read<InvestmentCalculatorCubit>().state;
@@ -147,6 +145,13 @@ class _InvestmentCalculatorPageState extends State<InvestmentCalculatorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const DatabaseDebugScreen()));
+        },
+        backgroundColor: const Color(0xFF6C63FF),
+        child: const Icon(Icons.storage, color: Colors.white),
+      ),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -229,17 +234,14 @@ class _InvestmentCalculatorPageState extends State<InvestmentCalculatorPage> {
                 child: BlocConsumer<InvestmentCalculatorCubit, InvestmentCalculatorState>(
                   listener: (context, state) {
                     if (state is InvestmentCalculatorError) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(state.message),
-                          backgroundColor: Colors.red,
-                        ),
-                      );
+                      ScaffoldMessenger.of(
+                        context,
+                      ).showSnackBar(SnackBar(content: Text(state.message), backgroundColor: Colors.red));
                     }
                   },
                   builder: (context, state) {
                     final isCalculating = state is InvestmentCalculatorLoading;
-                    
+
                     return InvestmentInputSection(
                       formKey: _formKey,
                       initialInvestmentController: _initialInvestmentController,

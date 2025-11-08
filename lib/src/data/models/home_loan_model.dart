@@ -1,10 +1,10 @@
-import 'package:equatable/equatable.dart'; 
+import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
 
 part 'home_loan_model.g.dart';
 
 @HiveType(typeId: 0)
-class HomeLoanModel extends Equatable { 
+class HomeLoanModel extends Equatable {
   @HiveField(0)
   final double? housePrice;
 
@@ -32,7 +32,7 @@ class HomeLoanModel extends Equatable {
   @HiveField(8)
   final DateTime? calculatedDate;
 
-  const HomeLoanModel({ 
+  const HomeLoanModel({
     this.housePrice,
     this.downPayment,
     this.interestRate,
@@ -45,17 +45,17 @@ class HomeLoanModel extends Equatable {
   });
 
   @override
-  List<Object?> get props => [ 
-        housePrice,
-        downPayment,
-        interestRate,
-        loanTermYears,
-        monthlyPayment,
-        loanAmount,
-        totalInterest,
-        totalPayment,
-        calculatedDate,
-      ];
+  List<Object?> get props => [
+    housePrice,
+    downPayment,
+    interestRate,
+    loanTermYears,
+    monthlyPayment,
+    loanAmount,
+    totalInterest,
+    totalPayment,
+    calculatedDate,
+  ];
 
   HomeLoanModel copyWith({
     double? housePrice,
@@ -79,6 +79,21 @@ class HomeLoanModel extends Equatable {
       totalPayment: totalPayment ?? this.totalPayment,
       calculatedDate: calculatedDate ?? this.calculatedDate,
     );
+  }
+
+  // For Hive UI compatibility
+  Map<String, dynamic> toJson() {
+    return {
+      'housePrice': housePrice,
+      'downPayment': downPayment,
+      'interestRate': interestRate,
+      'loanTermYears': loanTermYears,
+      'monthlyPayment': monthlyPayment,
+      'loanAmount': loanAmount,
+      'totalInterest': totalInterest,
+      'totalPayment': totalPayment,
+      'calculatedDate': calculatedDate?.toIso8601String(),
+    };
   }
 }
 

@@ -1,9 +1,12 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fin_calc/src/page/home_loan_calculator/home_loan_calculator.dart';
 import 'package:fin_calc/src/page/savings_calculator/savings_calculator.dart';
 import 'package:fin_calc/src/page/investment_calculator/investment_calculator.dart';
 import 'package:fin_calc/src/page/retirement_calculator/retirement_calculator.dart';
 import 'package:fin_calc/src/page/car_loan_calculator/car_loan_calculator.dart';
+import 'package:fin_calc/src/page/database_debug/database_debug_screen.dart';
+import 'package:fin_calc/src/page/hive_ui_screen/hive_ui_screen.dart';
 
 class MainDashboardPage extends StatelessWidget {
   const MainDashboardPage({super.key});
@@ -11,6 +14,32 @@ class MainDashboardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // 🛠️ Dev Only: Hive UI (Raw Data Editor)
+          // if (kDebugMode)
+          //   FloatingActionButton(
+          //     heroTag: 'hive_ui',
+          //     onPressed: () {
+          //       Navigator.push(context, MaterialPageRoute(builder: (context) => const HiveUIScreen()));
+          //     },
+          //     backgroundColor: const Color(0xFFFF6B6B),
+          //     child: const Icon(Icons.developer_mode, color: Colors.white),
+          //   ),
+          // if (kDebugMode) const SizedBox(height: 10),
+
+          // 🎨 Production: Custom Debug Screen
+          FloatingActionButton(
+            heroTag: 'custom_debug',
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const DatabaseDebugScreen()));
+            },
+            backgroundColor: const Color(0xFF6C63FF),
+            child: const Icon(Icons.storage, color: Colors.white),
+          ),
+        ],
+      ),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -131,7 +160,6 @@ class MainDashboardPage extends StatelessWidget {
                             ),
                             const SizedBox(height: 16),
 
-
                             _buildPremiumCard(
                               context: context,
                               title: 'Car Loan',
@@ -163,7 +191,6 @@ class MainDashboardPage extends StatelessWidget {
                               },
                             ),
                             const SizedBox(height: 16),
-
 
                             _buildPremiumCard(
                               context: context,
@@ -259,7 +286,7 @@ class MainDashboardPage extends StatelessWidget {
                                 );
                               },
                             ),
-                            
+
                             const SizedBox(height: 20),
                           ],
                         ),
