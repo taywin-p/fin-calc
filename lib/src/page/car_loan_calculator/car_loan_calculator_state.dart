@@ -12,7 +12,8 @@ class CarLoanCalculatorInitial extends CarLoanCalculatorState {}
 class CarLoanCalculatorLoading extends CarLoanCalculatorState {}
 
 class CarLoanCalculatorLoaded extends CarLoanCalculatorState {
-  final CarLoanModel calculation;
+  //เปลี่ยน State ให้ถือ Model V2
+  final CarLoanModelV2 calculation;
 
   const CarLoanCalculatorLoaded({required this.calculation});
 

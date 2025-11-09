@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'bloc/car_loan_calculator_details_cubit.dart';
+import 'package:fin_calc/src/data/models/car_loan_model_v2.dart';
 import 'package:fin_calc/src/data/services/car_loan_calculator_service.dart';
 
 class CarLoanCalculatorDetailsPage extends StatelessWidget {
-  final dynamic calculation;
+  //เปลี่ยน Type เป็น V2
+  final CarLoanModelV2 calculation;
 
   const CarLoanCalculatorDetailsPage({super.key, required this.calculation});
 
@@ -23,12 +25,18 @@ class CarLoanCalculatorDetailsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final calculation = context.read<CarLoanCalculatorDetailsCubit>().calculation;
+    //Cubit ตอนนี้ถือ V2
+    final calculation = context.read<CarLoanCalculatorDetailsCubit>().calculation as CarLoanModelV2;
+
+    // การแปล V2 -> Logic (สำหรับ Service)
+    // "7 ปี" -> "7" -> 7 (int)
+    final int loanTermYears = int.tryParse(calculation.loanTermYears?.replaceAll(' ปี', '') ?? '0') ?? 0;
+
     final schedule = CarLoanCalculatorService.generatePaymentSchedule(
-      loanAmount: calculation?.loanAmount ?? 0,
-      monthlyPayment: calculation?.monthlyPayment ?? 0,
-      interestRate: calculation?.interestRate ?? 0,
-      numberOfPayments: (calculation?.loanTermYears ?? 0) * 12,
+      loanAmount: calculation.loanAmount ?? 0,
+      monthlyPayment: calculation.monthlyPayment ?? 0,
+      interestRate: calculation.interestRate ?? 0,
+      numberOfPayments: loanTermYears * 12, // 👈 5. ส่ง int 7*12
     );
 
     return Scaffold(
@@ -99,7 +107,10 @@ class CarLoanCalculatorDetailsView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text('รายละเอียดสินเชื่อรถยนต์', style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600, letterSpacing: 0.3)),
+                Text(
+                  'รายละเอียดสินเชื่อรถยนต์',
+                  style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600, letterSpacing: 0.3),
+                ),
               ],
             ),
           ),
@@ -113,14 +124,17 @@ class CarLoanCalculatorDetailsView extends StatelessWidget {
     );
   }
 
-  Widget _buildSummaryCard(BuildContext context, calculation) {
+  // รับ V2
+  Widget _buildSummaryCard(BuildContext context, CarLoanModelV2 calculation) {
     final numberFormat = NumberFormat('#,##0.00');
     return Container(
       decoration: BoxDecoration(
         gradient: const LinearGradient(colors: [Color(0xFF4A90E2), Color(0xFF357ABD)]),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: Colors.white.withOpacity(0.2)),
-        boxShadow: [BoxShadow(color: const Color(0xFF4A90E2).withOpacity(0.3), blurRadius: 20, offset: const Offset(0, 8))],
+        boxShadow: [
+          BoxShadow(color: const Color(0xFF4A90E2).withOpacity(0.3), blurRadius: 20, offset: const Offset(0, 8)),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -141,11 +155,7 @@ class CarLoanCalculatorDetailsView extends StatelessWidget {
                     children: [
                       const Text(
                         'สรุปสินเชื่อรถยนต์',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                        ),
+                        style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),
                       ),
                       Container(
                         padding: const EdgeInsets.all(8),
@@ -154,9 +164,7 @@ class CarLoanCalculatorDetailsView extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Icon(
-                          cubit.isSummaryVisible
-                              ? Icons.keyboard_arrow_up_rounded
-                              : Icons.keyboard_arrow_down_rounded,
+                          cubit.isSummaryVisible ? Icons.keyboard_arrow_up_rounded : Icons.keyboard_arrow_down_rounded,
                           color: Colors.white,
                           size: 20,
                         ),
@@ -178,13 +186,23 @@ class CarLoanCalculatorDetailsView extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
                 child: Column(
                   children: [
-                    _buildSummaryRow('ราคารถ', '${numberFormat.format(calculation?.carPrice ?? 0)} บาท'),
-                    _buildSummaryRow('เงินดาวน์', '${numberFormat.format(calculation?.downPayment ?? 0)} บาท'),
-                    _buildSummaryRow('จำนวนเงินกู้', '${numberFormat.format(calculation?.loanAmount ?? 0)} บาท'),
-                    _buildSummaryRow('อัตราดอกเบี้ยต่อปี', '${calculation?.interestRate?.toStringAsFixed(2) ?? '0.00'}%'),
-                    _buildSummaryRow('ระยะเวลาผ่อน', '${calculation?.loanTermYears ?? 0} ปี'),
+                    _buildSummaryRow('ราคารถ', '${numberFormat.format(calculation.carPrice ?? 0)} บาท'),
+                    _buildSummaryRow('เงินดาวน์', '${numberFormat.format(calculation.downPayment ?? 0)} บาท'),
+                    _buildSummaryRow('จำนวนเงินกู้', '${numberFormat.format(calculation.loanAmount ?? 0)} บาท'),
+                    _buildSummaryRow(
+                      'อัตราดอกเบี้ยต่อปี',
+                      '${calculation.interestRate?.toStringAsFixed(2) ?? '0.00'}%',
+                    ),
+
+                    // อ่านจาก V2 (String) โดยตรง 
+                    _buildSummaryRow('ระยะเวลาผ่อน', calculation.loanTermYears ?? 'N/A'),
+
                     const Divider(color: Colors.white54, height: 20),
-                    _buildSummaryRow('ค่างวดต่อเดือน', '${numberFormat.format(calculation?.monthlyPayment ?? 0)} บาท', isHighlight: true),
+                    _buildSummaryRow(
+                      'ค่างวดต่อเดือน',
+                      '${numberFormat.format(calculation.monthlyPayment ?? 0)} บาท',
+                      isHighlight: true,
+                    ),
                   ],
                 ),
               );
@@ -201,8 +219,18 @@ class CarLoanCalculatorDetailsView extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: TextStyle(color: Colors.white.withOpacity(0.9), fontSize: 14, fontWeight: FontWeight.w500)),
-          Text(value, style: TextStyle(color: Colors.white, fontSize: isHighlight ? 16 : 14, fontWeight: isHighlight ? FontWeight.bold : FontWeight.w600)),
+          Text(
+            label,
+            style: TextStyle(color: Colors.white.withOpacity(0.9), fontSize: 14, fontWeight: FontWeight.w500),
+          ),
+          Text(
+            value,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: isHighlight ? 16 : 14,
+              fontWeight: isHighlight ? FontWeight.bold : FontWeight.w600,
+            ),
+          ),
         ],
       ),
     );
@@ -221,17 +249,43 @@ class CarLoanCalculatorDetailsView extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Colors.white.withOpacity(0.2), Colors.white.withOpacity(0.1)],
-              ),
+              gradient: LinearGradient(colors: [Colors.white.withOpacity(0.2), Colors.white.withOpacity(0.1)]),
               borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
             ),
             child: Row(
               children: [
-                const Expanded(flex: 1, child: Text('งวด', style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600), textAlign: TextAlign.center)),
-                const Expanded(flex: 2, child: Text('เงินต้น', style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600), textAlign: TextAlign.right)),
-                const Expanded(flex: 2, child: Text('ดอกเบี้ย', style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600), textAlign: TextAlign.right)),
-                const Expanded(flex: 2, child: Text('คงเหลือ', style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600), textAlign: TextAlign.right)),
+                const Expanded(
+                  flex: 1,
+                  child: Text(
+                    'งวด',
+                    style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                const Expanded(
+                  flex: 2,
+                  child: Text(
+                    'เงินต้น',
+                    style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600),
+                    textAlign: TextAlign.right,
+                  ),
+                ),
+                const Expanded(
+                  flex: 2,
+                  child: Text(
+                    'ดอกเบี้ย',
+                    style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600),
+                    textAlign: TextAlign.right,
+                  ),
+                ),
+                const Expanded(
+                  flex: 2,
+                  child: Text(
+                    'คงเหลือ',
+                    style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600),
+                    textAlign: TextAlign.right,
+                  ),
+                ),
               ],
             ),
           ),
@@ -250,10 +304,38 @@ class CarLoanCalculatorDetailsView extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    Expanded(flex: 1, child: Text('${item.month}', style: const TextStyle(color: Colors.white, fontSize: 13), textAlign: TextAlign.center)),
-                    Expanded(flex: 2, child: Text(numberFormat.format(item.principal), style: const TextStyle(color: Colors.white, fontSize: 13), textAlign: TextAlign.right)),
-                    Expanded(flex: 2, child: Text(numberFormat.format(item.interest), style: const TextStyle(color: Colors.white, fontSize: 13), textAlign: TextAlign.right)),
-                    Expanded(flex: 2, child: Text(numberFormat.format(item.remainingBalance), style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w500), textAlign: TextAlign.right)),
+                    Expanded(
+                      flex: 1,
+                      child: Text(
+                        '${item.month}',
+                        style: const TextStyle(color: Colors.white, fontSize: 13),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: Text(
+                        numberFormat.format(item.principal),
+                        style: const TextStyle(color: Colors.white, fontSize: 13),
+                        textAlign: TextAlign.right,
+                      ),
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: Text(
+                        numberFormat.format(item.interest),
+                        style: const TextStyle(color: Colors.white, fontSize: 13),
+                        textAlign: TextAlign.right,
+                      ),
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: Text(
+                        numberFormat.format(item.remainingBalance),
+                        style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w500),
+                        textAlign: TextAlign.right,
+                      ),
+                    ),
                   ],
                 ),
               );

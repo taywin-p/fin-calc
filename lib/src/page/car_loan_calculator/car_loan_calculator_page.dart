@@ -1,3 +1,4 @@
+import 'package:fin_calc/src/page/database_debug/database_debug_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,7 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:fin_calc/src/data/repositories/car_loan_repository_impl.dart';
 import 'package:fin_calc/src/page/car_loan_calculator/bloc/car_loan_calculator_cubit.dart';
 import 'package:fin_calc/src/page/car_loan_calculator_details/car_loan_calculator_details.dart';
-import 'package:fin_calc/src/page/database_debug/database_debug_screen.dart';
+import 'package:fin_calc/src/data/models/car_loan_model_v2.dart';
 
 // Custom number formatter
 class NumberTextInputFormatter extends TextInputFormatter {
@@ -115,8 +116,13 @@ class _CarLoanCalculatorViewState extends State<CarLoanCalculatorView> {
                   if (calc.interestRate != null && calc.interestRate! >= 0) {
                     _interestRateController.text = calc.interestRate!.toString();
                   }
-                  if (calc.loanTermYears != null && calc.loanTermYears! > 0) {
-                    _loanTermController.text = calc.loanTermYears.toString();
+
+                  // การแปล V2 -> UI 
+                  // เราได้รับ "7 ปี" (String) จาก V2
+                  if (calc.loanTermYears != null) {
+                    // "7 ปี" -> "7"
+                    final yearsString = calc.loanTermYears!.replaceAll(' ปี', '');
+                    _loanTermController.text = yearsString; // ใส่ "7" ลงในช่อง
                   }
                 }
               },
@@ -342,7 +348,8 @@ class _CarLoanCalculatorViewState extends State<CarLoanCalculatorView> {
     );
   }
 
-  Widget _buildSummarySection(calculation) {
+  // รับ CarLoanModelV2
+  Widget _buildSummarySection(CarLoanModelV2 calculation) {
     final numberFormat = NumberFormat('#,##0.00');
     return Container(
       padding: const EdgeInsets.all(20),
