@@ -505,6 +505,8 @@ class _DatabaseDebugScreenState extends State<DatabaseDebugScreen> {
           model.interestRate.runtimeType,
         ),
         _buildDetailRowWithType('Loan Term', '${model.loanTermYears ?? ''}', model.loanTermYears.runtimeType),
+        // ✨ V3: แสดง carModelName (null = ข้อมูล V1 เก่า, มีค่า = ข้อมูล V3 ใหม่)
+        _buildDetailRowWithType('Car Model Name', model.carModelName ?? '', model.carModelName?.runtimeType ?? Null),
         _buildDetailRowWithType(
           'Monthly Payment',
           _formatNumberClean(model.monthlyPayment),
@@ -531,6 +533,9 @@ class _DatabaseDebugScreenState extends State<DatabaseDebugScreen> {
   }
 
   Widget _buildDetailRowWithType(String label, String value, Type type) {
+    // แสดง 'null' ถ้า type เป็น Null (ข้อมูลเก่าที่ไม่มี field นี้)
+    final displayValue = type == Null ? 'null' : (value.isEmpty ? '(empty)' : value);
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
@@ -555,9 +560,9 @@ class _DatabaseDebugScreenState extends State<DatabaseDebugScreen> {
                   ),
                   const TextSpan(text: ' ', style: TextStyle(fontSize: 13)),
                   TextSpan(
-                    text: value.isEmpty ? '(empty)' : value,
+                    text: displayValue,
                     style: TextStyle(
-                      color: value.isEmpty ? Colors.white54 : Colors.white,
+                      color: (type == Null || value.isEmpty) ? Colors.white54 : Colors.white,
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
                     ),

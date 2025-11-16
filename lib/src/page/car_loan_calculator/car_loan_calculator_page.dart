@@ -49,6 +49,7 @@ class _CarLoanCalculatorViewState extends State<CarLoanCalculatorView> {
   final _downPaymentController = TextEditingController();
   final _interestRateController = TextEditingController();
   final _loanTermController = TextEditingController();
+  final _carModelController = TextEditingController(); // V3
   final _scrollController = ScrollController();
 
   @override
@@ -57,6 +58,7 @@ class _CarLoanCalculatorViewState extends State<CarLoanCalculatorView> {
     _downPaymentController.dispose();
     _interestRateController.dispose();
     _loanTermController.dispose();
+    _carModelController.dispose(); // V3
     _scrollController.dispose();
     super.dispose();
   }
@@ -68,6 +70,7 @@ class _CarLoanCalculatorViewState extends State<CarLoanCalculatorView> {
       downPayment: _extractNumericValue(_downPaymentController.text),
       interestRate: _interestRateController.text,
       loanTermYears: _loanTermController.text,
+      carModelName: _carModelController.text, // V3
     );
   }
 
@@ -78,6 +81,7 @@ class _CarLoanCalculatorViewState extends State<CarLoanCalculatorView> {
     _downPaymentController.clear();
     _interestRateController.clear();
     _loanTermController.clear();
+    _carModelController.clear(); // V3
   }
 
   @override
@@ -118,6 +122,13 @@ class _CarLoanCalculatorViewState extends State<CarLoanCalculatorView> {
                   if (calc.loanTermYears != null && calc.loanTermYears! > 0) {
                     _loanTermController.text = calc.loanTermYears.toString();
                   }
+
+                  //V3: Hive assign null อัตโนมัติถ้าไม่มี field[9]
+                  print(' V3 UI: carModelName = ${calc.carModelName}');
+                  if (calc.carModelName == null) {
+                    print('   null = ข้อมูล V1 เก่า (Lightweight Migration ทำงาน!)');
+                  }
+                  _carModelController.text = calc.carModelName ?? '';
                 }
               },
               child: Column(
@@ -242,6 +253,15 @@ class _CarLoanCalculatorViewState extends State<CarLoanCalculatorView> {
             suffixText: 'ปี',
             icon: Icons.calendar_today_outlined,
           ),
+          const SizedBox(height: 16),
+          // V3: TextField สำหรับรุ่นรถ
+          _buildTextField(
+            controller: _carModelController,
+            labelText: 'รุ่นรถ',
+            suffixText: '(ถ้ามี)',
+            icon: Icons.car_rental_outlined,
+            inputFormatters: [], // ไม่ต้องจำกัด format
+          ),
         ],
       ),
     );
@@ -254,10 +274,13 @@ class _CarLoanCalculatorViewState extends State<CarLoanCalculatorView> {
     required IconData icon,
     List<TextInputFormatter>? inputFormatters,
   }) {
+    // V3: ถ้าไม่มี inputFormatters แสดงว่าเป็น text field (เช่น carModel)
+    final isTextField = inputFormatters != null && inputFormatters.isEmpty;
+
     return TextField(
       controller: controller,
-      keyboardType: TextInputType.number,
-      inputFormatters: inputFormatters,
+      keyboardType: isTextField ? TextInputType.text : TextInputType.number,
+      inputFormatters: isTextField ? null : inputFormatters,
       style: const TextStyle(color: Colors.white, fontSize: 16),
       decoration: InputDecoration(
         labelText: labelText,

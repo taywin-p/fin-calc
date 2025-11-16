@@ -32,6 +32,10 @@ class CarLoanModel extends Equatable {
   @HiveField(8)
   final DateTime? calculatedDate;
 
+  // V3Migration - เพิ่ม Field ใหม่
+  @HiveField(9)
+  final String? carModelName; // ชื่อรุ่นรถ (เช่น "Toyota Camry")
+
   const CarLoanModel({
     this.carPrice,
     this.downPayment,
@@ -42,6 +46,7 @@ class CarLoanModel extends Equatable {
     this.totalInterest,
     this.totalPayment,
     this.calculatedDate,
+    this.carModelName, // V3Migration
   });
 
   @override
@@ -55,6 +60,7 @@ class CarLoanModel extends Equatable {
     totalInterest,
     totalPayment,
     calculatedDate,
+    carModelName, // V3Migration
   ];
 
   CarLoanModel copyWith({
@@ -67,6 +73,7 @@ class CarLoanModel extends Equatable {
     double? totalInterest,
     double? totalPayment,
     DateTime? calculatedDate,
+    String? carModelName, // V3Migration
   }) {
     return CarLoanModel(
       carPrice: carPrice ?? this.carPrice,
@@ -78,6 +85,7 @@ class CarLoanModel extends Equatable {
       totalInterest: totalInterest ?? this.totalInterest,
       totalPayment: totalPayment ?? this.totalPayment,
       calculatedDate: calculatedDate ?? this.calculatedDate,
+      carModelName: carModelName ?? this.carModelName, // V3Migration
     );
   }
 
@@ -93,6 +101,7 @@ class CarLoanModel extends Equatable {
       'totalInterest': totalInterest,
       'totalPayment': totalPayment,
       'calculatedDate': calculatedDate?.toIso8601String(),
+      'carModelName': carModelName, // V3Migration
     };
   }
 }

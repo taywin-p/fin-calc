@@ -26,13 +26,14 @@ class CarLoanModelAdapter extends TypeAdapter<CarLoanModel> {
       totalInterest: fields[6] as double?,
       totalPayment: fields[7] as double?,
       calculatedDate: fields[8] as DateTime?,
+      carModelName: fields[9] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, CarLoanModel obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(10)
       ..writeByte(0)
       ..write(obj.carPrice)
       ..writeByte(1)
@@ -50,7 +51,9 @@ class CarLoanModelAdapter extends TypeAdapter<CarLoanModel> {
       ..writeByte(7)
       ..write(obj.totalPayment)
       ..writeByte(8)
-      ..write(obj.calculatedDate);
+      ..write(obj.calculatedDate)
+      ..writeByte(9)
+      ..write(obj.carModelName);
   }
 
   @override

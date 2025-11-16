@@ -31,6 +31,7 @@ class CarLoanCalculatorCubit extends Cubit<CarLoanCalculatorState> {
     required String downPayment,
     required String interestRate,
     required String loanTermYears,
+    required String carModelName, // V3
   }) async {
     try {
       emit(CarLoanCalculatorLoading());
@@ -72,6 +73,7 @@ class CarLoanCalculatorCubit extends Cubit<CarLoanCalculatorState> {
         downPayment: down,
         interestRate: rate,
         loanTermYears: term,
+        carModelName: carModelName, // V3
       );
 
       // Save data

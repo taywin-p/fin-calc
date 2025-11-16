@@ -8,16 +8,17 @@ class CarLoanCalculatorService {
     required double downPayment,
     required double interestRate,
     required int loanTermYears,
+    required String carModelName, // V3Migration
   }) {
     final loanAmount = carPrice - downPayment;
     final numberOfPayments = loanTermYears * 12;
 
     // คำนวณดอกเบี้ยทั้งหมดแบบคงที่
     final totalInterest = loanAmount * (interestRate / 100) * loanTermYears;
-    
+
     // ยอดชำระรวมทั้งหมด
     final totalPayment = loanAmount + totalInterest;
-    
+
     // ค่าผ่อนรายเดือน (เท่ากันทุกเดือน)
     final monthlyPayment = totalPayment / numberOfPayments;
 
@@ -31,6 +32,7 @@ class CarLoanCalculatorService {
       totalInterest: totalInterest,
       totalPayment: totalPayment,
       calculatedDate: DateTime.now(),
+      carModelName: carModelName, // V3Migration
     );
   }
 
@@ -42,12 +44,12 @@ class CarLoanCalculatorService {
     required int numberOfPayments,
   }) {
     List<CarLoanScheduleItem> schedule = [];
-    
+
     // คำนวณดอกเบี้ยรายเดือน (แบบคงที่)
     final totalInterest = loanAmount * (interestRate / 100) * (numberOfPayments / 12);
     final monthlyInterest = totalInterest / numberOfPayments;
     final monthlyPrincipal = (loanAmount / numberOfPayments);
-    
+
     double remainingBalance = loanAmount;
 
     for (int month = 1; month <= numberOfPayments; month++) {
