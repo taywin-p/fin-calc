@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 
 import 'package:fin_calc/src/data/repositories/retirement_repository_impl.dart';
 import 'package:fin_calc/src/page/retirement_calculator/bloc/retirement_calculator_cubit.dart';
-import 'package:fin_calc/src/page/database_debug/database_debug_screen.dart';
+// import 'package:fin_calc/src/page/database_debug/database_debug_screen.dart';
 
 // Custom number formatter for comma-separated numbers
 class NumberTextInputFormatter extends TextInputFormatter {
@@ -107,13 +107,13 @@ class _RetirementCalculatorViewState extends State<RetirementCalculatorView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const DatabaseDebugScreen()));
-        },
-        backgroundColor: const Color(0xFF6C63FF),
-        child: const Icon(Icons.storage, color: Colors.white),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     Navigator.push(context, MaterialPageRoute(builder: (context) => const DatabaseDebugScreen()));
+      //   },
+      //   backgroundColor: const Color(0xFF6C63FF),
+      //   child: const Icon(Icons.storage, color: Colors.white),
+      // ),
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();

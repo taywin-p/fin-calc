@@ -5,7 +5,7 @@ import 'package:fin_calc/src/page/savings_calculator/savings_calculator.dart';
 import 'package:fin_calc/src/page/investment_calculator/investment_calculator.dart';
 import 'package:fin_calc/src/page/retirement_calculator/retirement_calculator.dart';
 import 'package:fin_calc/src/page/car_loan_calculator/car_loan_calculator.dart';
-import 'package:fin_calc/src/page/database_debug/database_debug_screen.dart';
+// import 'package:fin_calc/src/page/database_debug/database_debug_screen.dart';
 import 'package:fin_calc/src/page/hive_ui_screen/hive_ui_screen.dart';
 
 class MainDashboardPage extends StatelessWidget {
@@ -30,14 +30,14 @@ class MainDashboardPage extends StatelessWidget {
           // if (kDebugMode) const SizedBox(height: 10),
 
           // 🎨 Production: Custom Debug Screen
-          FloatingActionButton(
-            heroTag: 'custom_debug',
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const DatabaseDebugScreen()));
-            },
-            backgroundColor: const Color(0xFF6C63FF),
-            child: const Icon(Icons.storage, color: Colors.white),
-          ),
+          // FloatingActionButton(
+          //   heroTag: 'custom_debug',
+          //   onPressed: () {
+          //     Navigator.push(context, MaterialPageRoute(builder: (context) => const DatabaseDebugScreen()));
+          //   },
+          //   backgroundColor: const Color(0xFF6C63FF),
+          //   child: const Icon(Icons.storage, color: Colors.white),
+          // ),
         ],
       ),
       body: Container(

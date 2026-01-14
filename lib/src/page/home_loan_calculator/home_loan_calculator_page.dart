@@ -1,7 +1,7 @@
 import 'package:fin_calc/src/data/repositories/home_loan_repository_impl.dart';
 import 'package:fin_calc/src/page/home_loan_calculator/home_loan_calculator.dart';
 import 'package:fin_calc/src/page/home_loan_calculator_details/home_loan_calculator_details.dart';
-import 'package:fin_calc/src/page/database_debug/database_debug_screen.dart';
+// import 'package:fin_calc/src/page/database_debug/database_debug_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -96,13 +96,13 @@ class _HomeLoanCalculatorViewState extends State<HomeLoanCalculatorView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const DatabaseDebugScreen()));
-        },
-        backgroundColor: const Color(0xFF6C63FF),
-        child: const Icon(Icons.storage, color: Colors.white),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     Navigator.push(context, MaterialPageRoute(builder: (context) => const DatabaseDebugScreen()));
+      //   },
+      //   backgroundColor: const Color(0xFF6C63FF),
+      //   child: const Icon(Icons.storage, color: Colors.white),
+      // ),
       body: GestureDetector(
         onTap: () {
           // ซ่อน keyboard เมื่อแตะที่พื้นที่ว่าง

@@ -7,7 +7,7 @@ import 'package:fin_calc/src/data/repositories/savings_repository_impl.dart';
 import 'package:fin_calc/src/page/savings_calculator/bloc/savings_calculator_cubit.dart';
 import 'package:fin_calc/src/data/services/savings_calculator_service.dart';
 import 'package:fin_calc/src/page/savings_calculator_details/savings_calculator_details.dart';
-import 'package:fin_calc/src/page/database_debug/database_debug_screen.dart';
+// import 'package:fin_calc/src/page/database_debug/database_debug_screen.dart';
 import 'widgets/savings_summary_chart_widget_new.dart';
 
 // Custom number formatter for comma-separated numbers
@@ -100,13 +100,13 @@ class _SavingsCalculatorViewState extends State<SavingsCalculatorView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const DatabaseDebugScreen()));
-        },
-        backgroundColor: const Color(0xFF6C63FF),
-        child: const Icon(Icons.storage, color: Colors.white),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     Navigator.push(context, MaterialPageRoute(builder: (context) => const DatabaseDebugScreen()));
+      //   },
+      //   backgroundColor: const Color(0xFF6C63FF),
+      //   child: const Icon(Icons.storage, color: Colors.white),
+      // ),
       body: GestureDetector(
         onTap: () {
           // ซ่อน keyboard เมื่อแตะที่พื้นที่ว่าง

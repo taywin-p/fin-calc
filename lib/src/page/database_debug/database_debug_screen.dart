@@ -8,6 +8,7 @@ import '../../data/models/home_loan_model.dart';
 import '../../data/models/investment_model.dart';
 import '../../data/models/retirement_model.dart';
 import '../../data/models/car_loan_model.dart';
+import '../../data/models/car_loan_model_v2.dart'; // 👈 เพิ่ม V2
 
 class DatabaseDebugScreen extends StatefulWidget {
   const DatabaseDebugScreen({super.key});
@@ -268,6 +269,8 @@ class _DatabaseDebugScreenState extends State<DatabaseDebugScreen> {
       return _buildInvestmentDetails(value);
     } else if (value is RetirementModel) {
       return _buildRetirementDetails(value);
+    } else if (value is CarLoanModelV2) {
+      return _buildCarLoanV2Details(value); //ตรวจสอบ V2 ก่อน
     } else if (value is CarLoanModel) {
       return _buildCarLoanDetails(value);
     }
@@ -530,6 +533,45 @@ class _DatabaseDebugScreenState extends State<DatabaseDebugScreen> {
     );
   }
 
+  //เพิ่มฟังก์ชันสำหรับ V2
+  Widget _buildCarLoanV2Details(CarLoanModelV2 model) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildDetailRowWithType('Car Price', _formatNumberClean(model.carPrice), model.carPrice.runtimeType),
+        _buildDetailRowWithType('Down Payment', _formatNumberClean(model.downPayment), model.downPayment.runtimeType),
+        _buildDetailRowWithType('Loan Amount', _formatNumberClean(model.loanAmount), model.loanAmount.runtimeType),
+        _buildDetailRowWithType(
+          'Interest Rate',
+          _formatNumberClean(model.interestRate),
+          model.interestRate.runtimeType,
+        ),
+        _buildDetailRowWithType('Loan Term Years', model.loanTermYears ?? '', model.loanTermYears.runtimeType),
+        _buildDetailRowWithType(
+          'Monthly Payment',
+          _formatNumberClean(model.monthlyPayment),
+          model.monthlyPayment.runtimeType,
+        ),
+        _buildDetailRowWithType(
+          'Total Payment',
+          _formatNumberClean(model.totalPayment),
+          model.totalPayment.runtimeType,
+        ),
+        _buildDetailRowWithType(
+          'Total Interest',
+          _formatNumberClean(model.totalInterest),
+          model.totalInterest.runtimeType,
+        ),
+        if (model.calculatedDate != null)
+          _buildDetailRowWithType(
+            'Calculated Date',
+            _formatDate(model.calculatedDate!),
+            model.calculatedDate.runtimeType,
+          ),
+      ],
+    );
+  }
+
   Widget _buildDetailRowWithType(String label, String value, Type type) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
@@ -578,7 +620,9 @@ class _DatabaseDebugScreenState extends State<DatabaseDebugScreen> {
       case 'home_loan_data':
         return 'Home Loan Calculator';
       case 'car_loan_data':
-        return 'Car Loan Calculator';
+        return 'Car Loan Calculator (V1)';
+      case 'car_loan_data_v2':
+        return 'Car Loan Calculator (V2 - Migrated)'; // 👈 เพิ่ม V2
       case 'investment_data':
         return 'Investment Calculator';
       case 'retirement_data':
@@ -594,7 +638,8 @@ class _DatabaseDebugScreenState extends State<DatabaseDebugScreen> {
     if (value is HomeLoanModel) return 'HomeLoanModel';
     if (value is InvestmentModel) return 'InvestmentModel';
     if (value is RetirementModel) return 'RetirementModel';
-    if (value is CarLoanModel) return 'CarLoanModel';
+    if (value is CarLoanModelV2) return 'CarLoanModelV2 (String)'; // 👈 เพิ่ม V2
+    if (value is CarLoanModel) return 'CarLoanModel (int)';
     return value.runtimeType.toString();
   }
 
@@ -606,6 +651,8 @@ class _DatabaseDebugScreenState extends State<DatabaseDebugScreen> {
         return Icons.home_outlined;
       case 'car_loan_data':
         return Icons.directions_car_outlined;
+      case 'car_loan_data_v2':
+        return Icons.directions_car_outlined; // 👈 เพิ่ม V2
       case 'investment_data':
         return Icons.trending_up_outlined;
       case 'retirement_data':
@@ -623,6 +670,8 @@ class _DatabaseDebugScreenState extends State<DatabaseDebugScreen> {
         return const Color(0xFF667eea);
       case 'car_loan_data':
         return const Color(0xFF4A90E2);
+      case 'car_loan_data_v2':
+        return const Color(0xFF9C27B0); // เพิ่ม V2 (สีม่วงเพื่อแยกจาก V1)
       case 'investment_data':
         return const Color(0xFF4facfe);
       case 'retirement_data':
