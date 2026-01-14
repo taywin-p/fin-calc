@@ -1,4 +1,4 @@
-import 'package:fin_calc/src/page/database_debug/database_debug_screen.dart';
+// import 'package:fin_calc/src/page/database_debug/database_debug_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -84,13 +84,13 @@ class _CarLoanCalculatorViewState extends State<CarLoanCalculatorView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const DatabaseDebugScreen()));
-        },
-        backgroundColor: const Color(0xFF6C63FF),
-        child: const Icon(Icons.storage, color: Colors.white),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     Navigator.push(context, MaterialPageRoute(builder: (context) => const DatabaseDebugScreen()));
+      //   },
+      //   backgroundColor: const Color(0xFF6C63FF),
+      //   child: const Icon(Icons.storage, color: Colors.white),
+      // ),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Container(
@@ -117,7 +117,7 @@ class _CarLoanCalculatorViewState extends State<CarLoanCalculatorView> {
                     _interestRateController.text = calc.interestRate!.toString();
                   }
 
-                  // การแปล V2 -> UI 
+                  // การแปล V2 -> UI
                   // เราได้รับ "7 ปี" (String) จาก V2
                   if (calc.loanTermYears != null) {
                     // "7 ปี" -> "7"

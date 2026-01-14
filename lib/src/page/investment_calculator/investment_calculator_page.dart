@@ -5,7 +5,7 @@ import '../../data/services/investment_service.dart';
 import 'bloc/investment_calculator_cubit.dart';
 import 'widgets/investment_input_section.dart';
 import '../investment_calculator_details/investment_calculator_details.dart';
-import '../database_debug/database_debug_screen.dart';
+// import '../database_debug/database_debug_screen.dart';
 
 class InvestmentCalculatorPage extends StatefulWidget {
   const InvestmentCalculatorPage({super.key});
@@ -145,13 +145,13 @@ class _InvestmentCalculatorPageState extends State<InvestmentCalculatorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const DatabaseDebugScreen()));
-        },
-        backgroundColor: const Color(0xFF6C63FF),
-        child: const Icon(Icons.storage, color: Colors.white),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     Navigator.push(context, MaterialPageRoute(builder: (context) => const DatabaseDebugScreen()));
+      //   },
+      //   backgroundColor: const Color(0xFF6C63FF),
+      //   child: const Icon(Icons.storage, color: Colors.white),
+      // ),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
